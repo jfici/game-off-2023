@@ -1,14 +1,14 @@
 using Godot;
 using System;
 
-public class MainMenu : Control
+public class PauseMenu : Control
 {
-   PackedScene optionsMenu;
+    PackedScene optionsMenu;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        optionsMenu = GD.Load<PackedScene>("res://UI/OptionsMenu.tscn");
+        optionsMenu = GD.Load<PackedScene>("res://UI/OptionsMenuUI.tscn");
     }
 
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -17,22 +17,23 @@ public class MainMenu : Control
 //      
 //  }
     
-    private void _on_StartButton_pressed()
+    private void _on_ResumeButton_pressed()
     {
-        // Load Level 1 Scene
-        //GetTree().ChangeScene("[string of Level 1 path]");
+        // Unpause game
+        SetProcess(IsProcessing());
+        QueueFree();
     }
     
     private void _on_OptionsButton_pressed()
     {
-        this.Hide();
+        GetNode<VBoxContainer>("PauseMenuContainer").Hide();
         Control instance = (Control)optionsMenu.Instance();
         GetParent<Node2D>().AddChild(instance);
         instance.SetPosition(new Vector2(500, 250));
     }
     
-    private void _on_QuitButton_pressed()
+    private void _on_QuitMenuButton_pressed()
     {
-        GetTree().Quit();
+        GetTree().ChangeScene("Main Menu.tscn");
     }
 }

@@ -1,0 +1,55 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/MainMenuUI.cs" type="Script" id=1]
+
+[node name="MainMenuUI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+
+[node name="MainMenuContainer" type="VBoxContainer" parent="."]
+margin_left = 430.0
+margin_top = 265.0
+margin_right = 595.0
+margin_bottom = 100.0
+alignment = 1
+
+[node name="StartButton" type="Button" parent="MainMenuContainer"]
+margin_right = 165.0
+margin_bottom = 20.0
+text = "START"
+
+[node name="OptionsButton" type="Button" parent="MainMenuContainer"]
+margin_top = 24.0
+margin_right = 165.0
+margin_bottom = 44.0
+text = "OPTIONS"
+
+[node name="QuitButton" type="Button" parent="MainMenuContainer"]
+margin_top = 48.0
+margin_right = 165.0
+margin_bottom = 68.0
+text = "QUIT"
+
+[node name="PrototypeContainer" type="VBoxContainer" parent="."]
+margin_left = 800.0
+margin_top = 30.0
+margin_right = 1000.0
+margin_bottom = 100.0
+
+[node name="JoeyButton" type="Button" parent="PrototypeContainer"]
+margin_right = 200.0
+margin_bottom = 20.0
+text = "Joey Prototype"
+
+[node name="BrandonButton" type="Button" parent="PrototypeContainer"]
+margin_top = 24.0
+margin_right = 200.0
+margin_bottom = 44.0
+text = "Brandon Protoype"
+
+[connection signal="pressed" from="MainMenuContainer/StartButton" to="." method="_on_StartButton_pressed"]
+[connection signal="pressed" from="MainMenuContainer/OptionsButton" to="." method="_on_OptionsButton_pressed"]
+[connection signal="pressed" from="MainMenuContainer/QuitButton" to="." method="_on_QuitButton_pressed"]
+[connection signal="pressed" from="PrototypeContainer/JoeyButton" to="." method="_on_JoeyButton_pressed"]
+[connection signal="pressed" from="PrototypeContainer/BrandonButton" to="." method="_on_BrandonButton_pressed"]

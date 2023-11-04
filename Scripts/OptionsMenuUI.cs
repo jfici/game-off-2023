@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class OptionsMenu : Control
+public class OptionsMenuUI : Control
 {
     // Declare member variables here. Examples:
     // private int a = 2;
@@ -24,6 +24,6 @@ public class OptionsMenu : Control
     private void _on_BackButton_pressed()
     {
         QueueFree();
-        GetParent().GetNode<Control>("MainMenu").Show();
+        GetParent().GetNode<Control>("MainMenuUI").Show();
     }
 }
