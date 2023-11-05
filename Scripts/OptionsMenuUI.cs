@@ -24,6 +24,7 @@ public class OptionsMenuUI : Control
     private void _on_BackButton_pressed()
     {
         QueueFree();
-        GetParent().GetNode<Control>("MainMenuUI").Show();
+        if(PlayerPrototypeJoey.isPaused) GetParent().GetNode<Control>("PauseMenuUI").Show();
+        else GetParent().GetNode<Control>("MainMenuUI").Show();
     }
 }

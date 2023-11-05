@@ -17,7 +17,7 @@ extents = Vector2( 100, 9.75 )
 [node name="JoeyWorkspace" type="Node2D"]
 
 [node name="PlayerPrototypeJoey" parent="." instance=ExtResource( 1 )]
-position = Vector2( 488, 339 )
+position = Vector2( 500, 350 )
 
 [node name="Platform" type="StaticBody2D" parent="."]
 position = Vector2( 508, 527 )
