@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Runtime.CompilerServices;
 
 public class PlayerPrototypeJoey : KinematicBody2D
 {
@@ -12,6 +13,7 @@ public class PlayerPrototypeJoey : KinematicBody2D
 	private Vector2 direction;
     
     public AnimationTree animationTree;
+    public CharacterStateMachine stateMachine;
     
     PackedScene pauseMenu;
     public static bool isPaused;
@@ -21,6 +23,8 @@ public class PlayerPrototypeJoey : KinematicBody2D
 	{
         animationTree = this.GetNode<AnimationTree>("AnimationTree");
         animationTree.Active = true;
+        
+        stateMachine = this.GetNode<CharacterStateMachine>("CharacterStateMachine");
         
         pauseMenu = GD.Load<PackedScene>("res://UI/PauseMenuUI.tscn");
         isPaused = false;
@@ -36,12 +40,17 @@ public class PlayerPrototypeJoey : KinematicBody2D
 
 	public override void _PhysicsProcess(float delta)
 	{
-		#region Movement
+        #region Movement
         MoveAndSlide(velocity, new Vector2(0,-1));
         
         // Horizontal movement
 		direction.x = Input.GetAxis("move_left", "move_right");
-		velocity.x = speedX * direction.x;
+        
+        if(direction.x != 0 && stateMachine.CheckIfCanMove())
+        {
+            velocity.x = speedX * direction.x;
+        }
+        else velocity = velocity.MoveToward(new Vector2(0,velocity.y), speedX);
 		
 		// Veritcal movement and jumping
 		if(Input.IsActionJustPressed("jump") && IsOnFloor())
@@ -71,8 +80,10 @@ public class PlayerPrototypeJoey : KinematicBody2D
         
         #endregion
         
+        #region UI
         // Pause the game if unpaused when the player hits Esc
         if(Input.IsActionJustPressed("ui_cancel") && !isPaused) PauseGame();
+        #endregion
 	}
     
     private void PauseGame()
