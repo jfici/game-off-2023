@@ -360,6 +360,7 @@ position = Vector2( -9, 7 )
 collision_layer = 8
 collision_mask = 2
 script = ExtResource( 8 )
+follower_scene = ExtResource( 9 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FollowerSpawn1"]
 position = Vector2( -156, -353 )
