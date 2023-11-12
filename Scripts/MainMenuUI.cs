@@ -45,6 +45,6 @@ public class MainMenuUI : Control
 	private void _on_BrandonButton_pressed()
 	{
 		// Load Brandon's prototype scene
-		//GetTree().ChangeScene("[insert path of scene here]");
+		GetTree().ChangeScene("res://Scenes/Brandon/Brandon.tscn");
 	}
 }
