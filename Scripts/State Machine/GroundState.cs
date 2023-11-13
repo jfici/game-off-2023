@@ -2,20 +2,35 @@ using Godot;
 using System;
 
 public class GroundState : State
-{
-    // Declare member variables here. Examples:
-    // private int a = 2;
-    // private string b = "text";
-
+{ 
+    [Export] public String jumpAnimationName = "Jump Animation";
+    
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        
+        airState = this.GetParent<Node>().GetNode<State>("AirState");
     }
-
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//      
-//  }
+    
+    public override void StateProcess(float delta)
+    {
+        if(!character.IsOnFloor())
+        {
+            nextState = airState;
+        }
+    }
+    
+    public override void StateInput(InputEvent @event)
+    {
+        if(@event.IsActionPressed("jump"))
+        {
+            Jump();
+        }
+    }
+    
+    public void Jump()
+    {
+        PlayerPrototypeJoey.velocity.y = -PlayerPrototypeJoey.speedY;
+        nextState = airState;
+        playback.Travel(jumpAnimationName);
+    }
 }

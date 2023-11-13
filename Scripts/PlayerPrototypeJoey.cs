@@ -4,11 +4,11 @@ using System.Runtime.CompilerServices;
 
 public class PlayerPrototypeJoey : KinematicBody2D
 {
-	public Vector2 velocity;
-	[Export] public float speedX = 300;
-	[Export] public float speedY = 700;
-	[Export] public float gravity = 30;
-    [Export] public float drag = 100;
+	public static Vector2 velocity;
+	public static float speedX = 300;
+	public static float speedY = 700;
+	private float gravity = 30;
+    public float drag = 100;
 	private float terminalVelocity = 1000;
 	private Vector2 direction;
     
@@ -30,14 +30,6 @@ public class PlayerPrototypeJoey : KinematicBody2D
         isPaused = false;
 	}
 
-//    // Called every frame. 'delta' is the elapsed time since the previous frame.
-//    public override void _Process(float delta)
-//    {
-//
-//    }
-
-    
-
 	public override void _PhysicsProcess(float delta)
 	{
         #region Movement
@@ -52,21 +44,12 @@ public class PlayerPrototypeJoey : KinematicBody2D
         }
         else velocity = velocity.MoveToward(new Vector2(0,velocity.y), speedX);
 		
-		// Veritcal movement and jumping
-		if(Input.IsActionJustPressed("jump") && IsOnFloor())
-		{
-			velocity.y = -speedY;
-		}
-		
+		// Veritcal movement
 		if(!IsOnFloor()) 
 		{
 			// Make the player fall faster in the air
-            velocity.y += gravity;			
+            velocity.y += gravity;		
 			if(velocity.y > terminalVelocity) velocity.y = terminalVelocity;
-            
-            // Slow the player's horizontal movement in the air
-            if(direction.x > 0) velocity.x -= drag;
-            else if(direction.x < 0) velocity.x += drag;
 		}
         #endregion
         
@@ -77,7 +60,6 @@ public class PlayerPrototypeJoey : KinematicBody2D
         // Flip sprite based on direction of movement
         if(direction.x > 0) this.GetNode<Sprite>("Sprite").FlipH = false;
         else if(direction.x < 0) this.GetNode<Sprite>("Sprite").FlipH = true;
-        
         #endregion
         
         #region UI
@@ -88,7 +70,6 @@ public class PlayerPrototypeJoey : KinematicBody2D
     
     private void PauseGame()
     {
-        
         isPaused = true;
         GetTree().Paused = true;
         Control instance = (Control)pauseMenu.Instance();
