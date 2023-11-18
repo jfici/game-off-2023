@@ -44,13 +44,16 @@ public class CharacterStateMachine : Node
 
     public override void _PhysicsProcess(float delta)
     {
+        //GD.Print("Current state is: " + currentState.Name);
+        //GD.Print("onWall is: " + PlayerPrototypeJoey.onWall);
+        
         // Change state when next one is queued up
         if(currentState.nextState != null)
         {
             SwitchStates(currentState.nextState);
         }
         
-        // Calling a method that checks if you're in the right state
+        // Method that executes code based on the state you're in
         currentState.StateProcess(delta);
     }
 

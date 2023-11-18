@@ -11,6 +11,7 @@ public class State : Node
     public State airState;
     public State groundState;
     public State landingState;
+    public State wallState;
     
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()

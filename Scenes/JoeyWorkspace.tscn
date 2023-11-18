@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Characters/PlayerPrototypeJoey.tscn" type="PackedScene" id=1]
 
@@ -11,8 +11,17 @@ extents = Vector2( 499.5, 9.5 )
 [sub_resource type="QuadMesh" id=3]
 size = Vector2( 200, 20 )
 
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 100, 10 )
+
+[sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 100, 10 )
+
+[sub_resource type="QuadMesh" id=5]
+size = Vector2( 20, 200 )
+
 [sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 100, 9.75 )
+extents = Vector2( 10, 100 )
 
 [node name="JoeyWorkspace" type="Node2D"]
 
@@ -21,6 +30,7 @@ position = Vector2( 500, 350 )
 
 [node name="Platform" type="StaticBody2D" parent="."]
 position = Vector2( 508, 527 )
+collision_mask = 3
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="Platform"]
 modulate = Color( 0, 0.498039, 0.0313726, 1 )
@@ -32,6 +42,7 @@ shape = SubResource( 2 )
 
 [node name="PlatformSmall" type="StaticBody2D" parent="."]
 position = Vector2( 801, 397 )
+collision_mask = 3
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="PlatformSmall"]
 modulate = Color( 0, 0.498039, 0.0313726, 1 )
@@ -39,10 +50,11 @@ mesh = SubResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlatformSmall"]
 position = Vector2( 0, -0.25 )
-shape = SubResource( 4 )
+shape = SubResource( 6 )
 
 [node name="PlatformSmall2" type="StaticBody2D" parent="."]
 position = Vector2( 641, 270 )
+collision_mask = 3
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="PlatformSmall2"]
 modulate = Color( 0, 0.498039, 0.0313726, 1 )
@@ -50,4 +62,40 @@ mesh = SubResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlatformSmall2"]
 position = Vector2( 0, -0.25 )
+shape = SubResource( 7 )
+
+[node name="PlatformVertical" type="StaticBody2D" parent="."]
+position = Vector2( 158, 326 )
+collision_layer = 16
+collision_mask = 3
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="PlatformVertical"]
+modulate = Color( 0.203922, 0.12549, 0.894118, 1 )
+mesh = SubResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlatformVertical"]
+shape = SubResource( 4 )
+
+[node name="PlatformVertical2" type="StaticBody2D" parent="."]
+position = Vector2( 346, 221 )
+collision_layer = 16
+collision_mask = 3
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="PlatformVertical2"]
+modulate = Color( 0.203922, 0.12549, 0.894118, 1 )
+mesh = SubResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlatformVertical2"]
+shape = SubResource( 4 )
+
+[node name="PlatformVertical3" type="StaticBody2D" parent="."]
+position = Vector2( 530, 180 )
+collision_layer = 16
+collision_mask = 3
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="PlatformVertical3"]
+modulate = Color( 0.203922, 0.12549, 0.894118, 1 )
+mesh = SubResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlatformVertical3"]
 shape = SubResource( 4 )

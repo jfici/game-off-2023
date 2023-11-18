@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://Art/PlatformerSprites/PlayerOneSpriteSheet.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/PlayerPrototypeJoey.cs" type="Script" id=2]
@@ -6,10 +6,15 @@
 [ext_resource path="res://Scripts/State Machine/CharacterStateMachine.cs" type="Script" id=4]
 [ext_resource path="res://Scripts/State Machine/LandingState.cs" type="Script" id=5]
 [ext_resource path="res://Scripts/State Machine/GroundState.cs" type="Script" id=6]
+[ext_resource path="res://Scripts/State Machine/WallState.cs" type="Script" id=7]
 [ext_resource path="res://jump_start.tres" type="Animation" id=8]
+[ext_resource path="res://Scripts/RayCast2D.cs" type="Script" id=9]
+[ext_resource path="res://Scripts/Debug/DebugStateLabel.cs" type="Script" id=10]
+[ext_resource path="res://Scripts/Debug/DebugOnWallLabel.cs" type="Script" id=11]
+[ext_resource path="res://Scripts/Debug/DebugPowerLabel.cs" type="Script" id=12]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 15.5, 29.5 )
+extents = Vector2( 16, 32 )
 
 [sub_resource type="Animation" id=2]
 length = 0.001
@@ -198,6 +203,111 @@ tracks/3/keys = {
 "values": [ 8 ]
 }
 
+[sub_resource type="Animation" id=17]
+resource_name = "wall"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 38 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 8 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Sprite:vframes")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 8 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Sprite:texture")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ ExtResource( 1 ) ]
+}
+
+[sub_resource type="Animation" id=18]
+resource_name = "wall_climb"
+length = 0.5
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 3, 4, 5, 6 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 8 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Sprite:vframes")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 8 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Sprite:texture")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ ExtResource( 1 ) ]
+}
+
 [sub_resource type="AnimationNodeAnimation" id=7]
 animation = "idle"
 
@@ -215,6 +325,23 @@ blend_point_1/pos = 1.0
 blend_point_2/node = SubResource( 9 )
 blend_point_2/pos = -1.0
 
+[sub_resource type="AnimationNodeAnimation" id=19]
+animation = "wall"
+
+[sub_resource type="AnimationNodeAnimation" id=20]
+animation = "wall_climb"
+
+[sub_resource type="AnimationNodeAnimation" id=21]
+animation = "wall_climb"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id=22]
+blend_point_0/node = SubResource( 19 )
+blend_point_0/pos = 0.0
+blend_point_1/node = SubResource( 20 )
+blend_point_1/pos = 1.0
+blend_point_2/node = SubResource( 21 )
+blend_point_2/pos = -1.0
+
 [sub_resource type="AnimationNodeAnimation" id=12]
 animation = "jump_end"
 
@@ -229,32 +356,70 @@ animation = "jump_start"
 switch_mode = 2
 auto_advance = true
 
+[sub_resource type="AnimationNodeStateMachineTransition" id=23]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=24]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=25]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=26]
+
 [sub_resource type="AnimationNodeStateMachine" id=4]
-states/Move/node = SubResource( 10 )
-states/Move/position = Vector2( -193.651, 133 )
+states/GroundMove/node = SubResource( 10 )
+states/GroundMove/position = Vector2( -193.651, 133 )
+states/WallMove/node = SubResource( 22 )
+states/WallMove/position = Vector2( -52.651, -6 )
 states/jump_end/node = SubResource( 12 )
-states/jump_end/position = Vector2( 15.425, 219 )
+states/jump_end/position = Vector2( -52.651, 244 )
 states/jump_start/node = SubResource( 13 )
-states/jump_start/position = Vector2( 15.425, 46 )
-transitions = [ "Move", "jump_start", SubResource( 14 ), "jump_start", "jump_end", SubResource( 15 ), "jump_end", "Move", SubResource( 16 ) ]
-start_node = "Move"
-graph_offset = Vector2( -715.575, 42 )
+states/jump_start/position = Vector2( 81.425, 133 )
+transitions = [ "GroundMove", "jump_start", SubResource( 14 ), "jump_start", "jump_end", SubResource( 15 ), "jump_end", "GroundMove", SubResource( 16 ), "GroundMove", "WallMove", SubResource( 23 ), "WallMove", "GroundMove", SubResource( 24 ), "WallMove", "jump_start", SubResource( 25 ), "jump_start", "WallMove", SubResource( 26 ) ]
+start_node = "GroundMove"
+graph_offset = Vector2( -639.575, -12.284 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=5]
 
 [node name="PlayerPrototypeJoey" type="KinematicBody2D"]
+collision_layer = 2
+collision_mask = 17
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( -4, -32 )
 scale = Vector2( 0.25, 0.25 )
 texture = ExtResource( 1 )
 hframes = 8
 vframes = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( -3.5, -29.5 )
 shape = SubResource( 1 )
+
+[node name="RayCast2D_Right" type="RayCast2D" parent="."]
+enabled = true
+cast_to = Vector2( 17, 0 )
+collision_mask = 16
+script = ExtResource( 9 )
+
+[node name="RayCast2D_Left" type="RayCast2D" parent="."]
+enabled = true
+cast_to = Vector2( -17, 0 )
+collision_mask = 16
+script = ExtResource( 9 )
+
+[node name="RayCast2D_Up" type="RayCast2D" parent="."]
+show_behind_parent = true
+position = Vector2( -16, 0 )
+enabled = true
+cast_to = Vector2( 0, -35 )
+collision_mask = 17
+script = ExtResource( 9 )
+
+[node name="RayCast2D_Up2" type="RayCast2D" parent="."]
+show_behind_parent = true
+position = Vector2( 16, 0 )
+enabled = true
+cast_to = Vector2( 0, -35 )
+collision_mask = 17
+script = ExtResource( 9 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 0, -150 )
@@ -267,13 +432,16 @@ anims/idle = SubResource( 3 )
 anims/jump_end = SubResource( 11 )
 anims/jump_start = ExtResource( 8 )
 anims/run = SubResource( 6 )
+anims/wall = SubResource( 17 )
+anims/wall_climb = SubResource( 18 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource( 4 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/playback = SubResource( 5 )
-parameters/Move/blend_position = 0
+parameters/GroundMove/blend_position = 0.0
+parameters/WallMove/blend_position = 0.0
 
 [node name="CharacterStateMachine" type="Node" parent="."]
 script = ExtResource( 4 )
@@ -281,14 +449,47 @@ script = ExtResource( 4 )
 [node name="GroundState" type="Node" parent="CharacterStateMachine"]
 script = ExtResource( 6 )
 jumpAnimationName = "jump_start"
+wallAnimationName = "WallMove"
 
 [node name="AirState" type="Node" parent="CharacterStateMachine"]
 script = ExtResource( 3 )
 landingAnimationName = "jump_end"
+wallAnimationName = "WallMove"
 
 [node name="LandingState" type="Node" parent="CharacterStateMachine"]
 script = ExtResource( 5 )
 canMove = false
 landingAnimationName = "jump_end"
+
+[node name="WallState" type="Node" parent="CharacterStateMachine"]
+script = ExtResource( 7 )
+jumpAnimationName = "jump_start"
+landingAnimationName = "jump_end"
+
+[node name="DebugStateLabel" type="Label" parent="."]
+visible = false
+margin_left = -52.0
+margin_top = -74.0
+margin_right = 53.0
+margin_bottom = -60.0
+text = "State: "
+script = ExtResource( 10 )
+
+[node name="DebugOnWallLabel" type="Label" parent="."]
+visible = false
+margin_left = -53.0
+margin_top = -55.0
+margin_right = 2.0
+margin_bottom = -41.0
+text = "OnWall: "
+script = ExtResource( 11 )
+
+[node name="DebugPowerLabel" type="Label" parent="."]
+margin_left = -45.0
+margin_top = -55.0
+margin_right = 2.0
+margin_bottom = -41.0
+text = "Power: "
+script = ExtResource( 12 )
 
 [connection signal="animation_finished" from="AnimationPlayer" to="CharacterStateMachine/LandingState" method="_on_AnimationPlayer_animation_finished"]

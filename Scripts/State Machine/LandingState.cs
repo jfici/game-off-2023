@@ -5,7 +5,7 @@ public class LandingState : State
 {
     [Export] public String landingAnimationName = "Landing Animation";
     
-    public String animStarted;
+    public string animStarted;
     
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
