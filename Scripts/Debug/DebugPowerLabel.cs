@@ -16,9 +16,21 @@ public class DebugPowerLabel : Label
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(float delta)
     {
-        if(PlayerPrototypeJoey.powerClimb || PlayerPrototypeJoey.powerJump || PlayerPrototypeJoey.powerGrapple || PlayerPrototypeJoey.powerSmash)
+        if(PlayerPrototypeJoey.powerClimb)
         {
-            Text = "Power: " + PlayerPrototypeJoey.currentPower;
+            Text = "Power: Climb";
+        }
+        else if(PlayerPrototypeJoey.powerJump)
+        {
+            Text = "Power: Jump";
+        }
+        else if(PlayerPrototypeJoey.powerGrapple)
+        {
+            Text = "Power: Grapple";
+        }
+        else if(PlayerPrototypeJoey.powerSmash)
+        {
+            Text = "Power: Smash";
         }
         else Text = "Power: None";
     }
