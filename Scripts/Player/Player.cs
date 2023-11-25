@@ -5,12 +5,13 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Runtime.CompilerServices;
 
-public class PlayerPrototypeJoey : KinematicBody2D
+public class Player : KinematicBody2D
 {
 	// Player movement variables
     public static Vector2 velocity;
-	public static float speedX = 350;
-	public static float speedY;
+	public static float runSpeed = 350;
+	public static float jumpSpeed;
+    public static float wallJumpSpeed = 1000;
     public static float climbSpeed = 300;
     public static bool onWall;
 	public float gravity = 30;
@@ -18,7 +19,7 @@ public class PlayerPrototypeJoey : KinematicBody2D
 	public Vector2 direction;
     
     // Power-up variables
-    // Change these from Export to static once we have something in-game to tie the unlocks to!!!
+    // Change these from Export to static once we have something in-game that unlocks them!!!
     [Export] public bool unlockClimb;
     [Export] public bool unlockJump;
     [Export] public bool unlockGrapple;
@@ -70,16 +71,49 @@ public class PlayerPrototypeJoey : KinematicBody2D
 
         if(direction.x != 0 && stateMachine.CheckIfCanMove())
         {
-            velocity.x = speedX * direction.x;
+            velocity.x = runSpeed * direction.x;
             onWall = false;
         }
-        else velocity = velocity.MoveToward(new Vector2(0, velocity.y), speedX);
+        else velocity = velocity.MoveToward(new Vector2(0, velocity.y), runSpeed);
         #endregion
 
         #region Vertical Movement
         // Jumping
-        if(powerJump) speedY = 1200;
-        else speedY = 700;
+        if(powerJump) jumpSpeed = 1200;
+        else jumpSpeed = 700;
+        
+        // if(Input.IsActionPressed("jump"))
+        // {
+        //     if(IsOnFloor() || onWall)
+        //     {
+        //         velocity.y = -jumpSpeed;
+        //     }
+            
+        //     if(onWall)
+        //     {
+        //         // Wall jump a certain direction based on where the sprite is facing
+        //         if(!GetNode<Sprite>("Sprite").FlipH)
+        //         {
+        //             wallJumpSpeed = -wallJumpSpeed;
+        //         }
+        //         else if(GetNode<Sprite>("Sprite").FlipH)
+        //         {
+        //             wallJumpSpeed = Math.Abs(wallJumpSpeed);
+        //         }
+
+        //         velocity.x = wallJumpSpeed;
+        //     }
+            
+        //     onWall = false;
+        // }
+        
+        // Gravity
+        if(!IsOnFloor() && !onWall) 
+		{
+			// Make the player fall faster in the air
+            velocity.y += gravity;		
+			if(velocity.y > terminalVelocity) velocity.y = terminalVelocity;
+		}
         
         // Wall Climbing
         direction.y = Input.GetAxis("move_up", "move_down");
@@ -93,14 +127,6 @@ public class PlayerPrototypeJoey : KinematicBody2D
             velocity = velocity.MoveToward(new Vector2(velocity.x, 0), climbSpeed);
         }
         #endregion
-
-        // Gravity
-        if(!IsOnFloor() && !onWall) 
-		{
-			// Make the player fall faster in the air
-            velocity.y += gravity;		
-			if(velocity.y > terminalVelocity) velocity.y = terminalVelocity;
-		}
         #endregion
 
         #region Power-ups

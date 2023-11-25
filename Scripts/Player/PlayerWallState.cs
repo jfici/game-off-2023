@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class WallState : State
+public class PlayerWallState : State
 {
     [Export] public string jumpAnimationName = "Jump Animation";
     [Export] public string landingAnimationName = "Landing Animation";
@@ -16,12 +16,12 @@ public class WallState : State
     
     public override void StateProcess(float delta)
     {
-        if(!character.IsOnFloor() && !PlayerPrototypeJoey.onWall)
+        if(!character.IsOnFloor() && !Player.onWall)
         {
             nextState = airState;
             playback.Travel(jumpAnimationName);
         }
-        else if(character.IsOnFloor() && !PlayerPrototypeJoey.onWall)
+        else if(character.IsOnFloor() && !Player.onWall)
         {
             nextState = landingState;
         }
@@ -31,37 +31,33 @@ public class WallState : State
     {
         if(@event.IsActionPressed("jump"))
         {
-            Jump();
+            // Wall jump a certain direction based on where the sprite is facing
+            if (!character.GetNode<Sprite>("Sprite").FlipH)
+            {
+                wallJumpSpeed = -wallJumpSpeed;
+            }
+            else if (character.GetNode<Sprite>("Sprite").FlipH)
+            {
+                wallJumpSpeed = Math.Abs(wallJumpSpeed);
+            }
+            
+            // Wall jump
+            Player.velocity = new Vector2(wallJumpSpeed, -Player.jumpSpeed);
+            Player.onWall = false;
+            nextState = airState;
+            playback.Travel(jumpAnimationName);
         }
         
         if(@event.IsActionPressed("move_right") || @event.IsActionPressed("move_left"))
         {
-            PlayerPrototypeJoey.onWall = false;
+            Player.onWall = false;
             nextState = airState;
             playback.Travel(jumpAnimationName);
         }
     }
     
-    public void Jump()
-    {
-        // Wall jump a certain direction based on where the sprite is facing
-        if(!character.GetNode<Sprite>("Sprite").FlipH)
-        {
-            wallJumpSpeed = -wallJumpSpeed;
-        }
-        else if(character.GetNode<Sprite>("Sprite").FlipH)
-        {
-            wallJumpSpeed = Math.Abs(wallJumpSpeed);
-        }
-        
-        PlayerPrototypeJoey.velocity = new Vector2(wallJumpSpeed, -PlayerPrototypeJoey.speedY);
-        PlayerPrototypeJoey.onWall = false;
-        nextState = airState;
-        playback.Travel(jumpAnimationName);
-    }
-    
     public override void OnEnter()
     {
-        PlayerPrototypeJoey.velocity.y = 0;
+        Player.velocity.y = 0;
     }
 }

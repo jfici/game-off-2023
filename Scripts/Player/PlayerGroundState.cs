@@ -1,16 +1,20 @@
 using Godot;
 using System;
 
-public class GroundState : State
+public class PlayerGroundState : State
 { 
-    [Export] public String jumpAnimationName = "Jump Animation";
-    [Export] public String wallAnimationName = "Wall Animation";
+    [Export] public string jumpAnimationName = "Jump Animation";
+    [Export] public string wallAnimationName = "Wall Animation";
+    
+    public KinematicBody2D player;
     
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         airState = this.GetParent<Node>().GetNode<State>("AirState");
         wallState = this.GetParent<Node>().GetNode<State>("WallState");
+        
+        player = GetParent().GetParent<KinematicBody2D>();
     }
     
     public override void StateProcess(float delta)
@@ -19,8 +23,7 @@ public class GroundState : State
         {
             nextState = airState;
         }
-        
-        if(PlayerPrototypeJoey.onWall)
+        if(Player.onWall)
         {
             nextState = wallState;
             playback.Travel(wallAnimationName);
@@ -31,15 +34,11 @@ public class GroundState : State
     {
         if(@event.IsActionPressed("jump"))
         {
-            Jump();
+            // Jump
+            Player.velocity = new Vector2(0, -Player.jumpSpeed);
+            Player.onWall = false;
+            nextState = airState;
+            playback.Travel(jumpAnimationName);
         }
-    }
-    
-    public void Jump()
-    {
-        PlayerPrototypeJoey.velocity.y = -PlayerPrototypeJoey.speedY;
-        PlayerPrototypeJoey.onWall = false;
-        nextState = airState;
-        playback.Travel(jumpAnimationName);
     }
 }

@@ -4,10 +4,12 @@ using System;
 public class State : Node
 {
     [Export] public bool canMove = true;
+    public bool justJumped;
     public KinematicBody2D character;
     public AnimationNodeStateMachinePlayback playback;
     public State nextState;
     
+    // State variables    
     public State airState;
     public State groundState;
     public State landingState;

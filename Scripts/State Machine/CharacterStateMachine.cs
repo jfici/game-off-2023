@@ -19,10 +19,19 @@ public class CharacterStateMachine : Node
         states = new State[this.GetChildCount()];
         
         // Get the character parent node
-        character = this.GetParent<KinematicBody2D>();
+        character = GetParent<KinematicBody2D>();
         
-        // Start in GroundState
-        currentState = this.GetNode<State>("GroundState");
+        // Establish starting state
+        if(character.IsOnFloor())
+        {
+            currentState = GetNode<State>("GroundState");
+            currentState.justJumped = false;
+        }
+        else
+        {
+            currentState = GetNode<State>("AirState");
+            currentState.justJumped = true;
+        }
         
         // Assign the animation tree node
         animationTree = GetParent().GetNode<AnimationTree>("AnimationTree");
@@ -44,9 +53,6 @@ public class CharacterStateMachine : Node
 
     public override void _PhysicsProcess(float delta)
     {
-        //GD.Print("Current state is: " + currentState.Name);
-        //GD.Print("onWall is: " + PlayerPrototypeJoey.onWall);
-        
         // Change state when next one is queued up
         if(currentState.nextState != null)
         {

@@ -3,32 +3,22 @@ using System;
 
 public class DebugPowerLabel : Label
 {
-    // Declare member variables here. Examples:
-    // private int a = 2;
-    // private string b = "text";
-
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
-    {
-        
-    }
-
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
+     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(float delta)
     {
-        if(PlayerPrototypeJoey.powerClimb)
+        if(Player.powerClimb)
         {
             Text = "Power: Climb";
         }
-        else if(PlayerPrototypeJoey.powerJump)
+        else if(Player.powerJump)
         {
             Text = "Power: Jump";
         }
-        else if(PlayerPrototypeJoey.powerGrapple)
+        else if(Player.powerGrapple)
         {
             Text = "Power: Grapple";
         }
-        else if(PlayerPrototypeJoey.powerSmash)
+        else if(Player.powerSmash)
         {
             Text = "Power: Smash";
         }

@@ -1,9 +1,9 @@
 using Godot;
 using System;
 
-public class LandingState : State
+public class PlayerLandingState : State
 {
-    [Export] public String landingAnimationName = "Landing Animation";
+    [Export] public string landingAnimationName = "Landing Animation";
     
     public string animStarted;
     
@@ -13,8 +13,9 @@ public class LandingState : State
         groundState = this.GetParent<Node>().GetNode<State>("GroundState");
     }
     
-    public void On_Animation_Tree_Animation_Finished(String anim_name)
+    public void On_Animation_Tree_Animation_Finished(string anim_name)
     {
         nextState = groundState;
+        GD.Print("Switching to groundState");
     }
 }

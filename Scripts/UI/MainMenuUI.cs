@@ -10,12 +10,6 @@ public class MainMenuUI : Control
 	{
 		optionsMenu = GD.Load<PackedScene>("res://UI/OptionsMenuUI.tscn");
 	}
-
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//      
-//  }
 	
 	private void _on_StartButton_pressed()
 	{

@@ -20,7 +20,7 @@ public class PauseMenuUI : Control
     {
         if(Input.IsActionJustPressed("ui_cancel"))
         {
-            if(PlayerPrototypeJoey.isPaused)
+            if(Player.isPaused)
             {
                 if(GetTree().Root.HasNode("JoeyWorkspace/OptionsMenuUI"))
                 {
@@ -36,7 +36,7 @@ public class PauseMenuUI : Control
     private void _on_ResumeButton_pressed()
     {
         // Unpause game
-        PlayerPrototypeJoey.isPaused = false;
+        Player.isPaused = false;
         GetTree().Paused = false;
         QueueFree();
     }
@@ -53,6 +53,6 @@ public class PauseMenuUI : Control
     {
         GetTree().ChangeScene("Scenes/Main Menu.tscn");
         GetTree().Paused = false;
-        PlayerPrototypeJoey.isPaused = false;
+        Player.isPaused = false;
     }
 }
