@@ -25,12 +25,10 @@ public class CharacterStateMachine : Node
         if(character.IsOnFloor())
         {
             currentState = GetNode<State>("GroundState");
-            currentState.justJumped = false;
         }
         else
         {
             currentState = GetNode<State>("AirState");
-            currentState.justJumped = true;
         }
         
         // Assign the animation tree node

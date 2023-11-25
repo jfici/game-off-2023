@@ -19,7 +19,7 @@ public class PlayerGroundState : State
     
     public override void StateProcess(float delta)
     {
-        if(!character.IsOnFloor() && !character.IsOnWall())
+        if(!character.IsOnFloor() && !character.IsOnWall() && Player.coyoteTimer.IsStopped())
         {
             nextState = airState;
         }
@@ -32,13 +32,25 @@ public class PlayerGroundState : State
     
     public override void StateInput(InputEvent @event)
     {
+        // Jump if input is pressed while player is on the floor or coyote timer is running
         if(@event.IsActionPressed("jump"))
         {
-            // Jump
-            Player.velocity = new Vector2(0, -Player.jumpSpeed);
-            Player.onWall = false;
-            nextState = airState;
-            playback.Travel(jumpAnimationName);
+            if(!Player.coyoteTimer.IsStopped()) GD.Print("Jumped while coyote timer was running!");
+            
+            if(character.IsOnFloor() || !Player.coyoteTimer.IsStopped())
+            {
+                Player.velocity = new Vector2(0, -Player.jumpSpeed);
+                Player.isJumping = true;
+                Player.onWall = false;
+                nextState = airState;
+                playback.Travel(jumpAnimationName);
+                Player.coyoteTimer.Stop();
+            }
+            else
+            {
+                Player.jumpBuffer.Start();
+                GD.Print("Jump buffer!");
+            }
         }
     }
 }

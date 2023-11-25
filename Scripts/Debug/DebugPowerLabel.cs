@@ -10,7 +10,7 @@ public class DebugPowerLabel : Label
         {
             Text = "Power: Climb";
         }
-        else if(Player.powerJump)
+        else if(Player.powerHighJump)
         {
             Text = "Power: Jump";
         }

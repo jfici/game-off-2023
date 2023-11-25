@@ -16,6 +16,5 @@ public class PlayerLandingState : State
     public void On_Animation_Tree_Animation_Finished(string anim_name)
     {
         nextState = groundState;
-        GD.Print("Switching to groundState");
     }
 }

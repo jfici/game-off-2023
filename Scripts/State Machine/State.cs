@@ -4,7 +4,6 @@ using System;
 public class State : Node
 {
     [Export] public bool canMove = true;
-    public bool justJumped;
     public KinematicBody2D character;
     public AnimationNodeStateMachinePlayback playback;
     public State nextState;

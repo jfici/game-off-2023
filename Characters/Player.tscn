@@ -10,7 +10,7 @@
 [ext_resource path="res://jump_start.tres" type="Animation" id=8]
 [ext_resource path="res://Scripts/Player/PlayerRayCast.cs" type="Script" id=9]
 [ext_resource path="res://Scripts/Debug/DebugStateLabel.cs" type="Script" id=10]
-[ext_resource path="res://Scripts/Debug/DebugOnWallLabel.cs" type="Script" id=11]
+[ext_resource path="res://Scripts/Debug/DebugVelocityYLabel.cs" type="Script" id=11]
 [ext_resource path="res://Scripts/Debug/DebugPowerLabel.cs" type="Script" id=12]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -375,7 +375,7 @@ states/jump_start/node = SubResource( 13 )
 states/jump_start/position = Vector2( 81.425, 133 )
 transitions = [ "GroundMove", "jump_start", SubResource( 14 ), "jump_start", "jump_end", SubResource( 15 ), "jump_end", "GroundMove", SubResource( 16 ), "GroundMove", "WallMove", SubResource( 23 ), "WallMove", "GroundMove", SubResource( 24 ), "WallMove", "jump_start", SubResource( 25 ), "jump_start", "WallMove", SubResource( 26 ) ]
 start_node = "GroundMove"
-graph_offset = Vector2( -646.575, 61.716 )
+graph_offset = Vector2( -646.575, -29.696 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=5]
 
@@ -444,6 +444,14 @@ parameters/playback = SubResource( 5 )
 parameters/GroundMove/blend_position = 0.0
 parameters/WallMove/blend_position = 0.0
 
+[node name="CoyoteTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="JumpBuffer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
 [node name="CharacterStateMachine" type="Node" parent="."]
 script = ExtResource( 4 )
 
@@ -456,6 +464,7 @@ wallAnimationName = "WallMove"
 script = ExtResource( 3 )
 landingAnimationName = "jump_end"
 wallAnimationName = "WallMove"
+jumpAnimationName = "jump_start"
 
 [node name="LandingState" type="Node" parent="CharacterStateMachine"]
 script = ExtResource( 5 )
@@ -468,7 +477,6 @@ jumpAnimationName = "jump_start"
 landingAnimationName = "jump_end"
 
 [node name="DebugStateLabel" type="Label" parent="."]
-visible = false
 margin_left = -52.0
 margin_top = -74.0
 margin_right = 53.0
@@ -476,16 +484,16 @@ margin_bottom = -60.0
 text = "State: "
 script = ExtResource( 10 )
 
-[node name="DebugOnWallLabel" type="Label" parent="."]
-visible = false
-margin_left = -53.0
+[node name="DebugVelocityYLabel" type="Label" parent="."]
+margin_left = -59.0
 margin_top = -55.0
-margin_right = 2.0
+margin_right = 19.0
 margin_bottom = -41.0
-text = "OnWall: "
+text = "Velocity Y: 0"
 script = ExtResource( 11 )
 
 [node name="DebugPowerLabel" type="Label" parent="."]
+visible = false
 margin_left = -45.0
 margin_top = -55.0
 margin_right = 2.0

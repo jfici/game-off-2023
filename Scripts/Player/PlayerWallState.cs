@@ -5,7 +5,7 @@ public class PlayerWallState : State
 {
     [Export] public string jumpAnimationName = "Jump Animation";
     [Export] public string landingAnimationName = "Landing Animation";
-    public float wallJumpSpeed = 1000;
+    public float jumpOffSpeed = 1000;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -34,15 +34,16 @@ public class PlayerWallState : State
             // Wall jump a certain direction based on where the sprite is facing
             if (!character.GetNode<Sprite>("Sprite").FlipH)
             {
-                wallJumpSpeed = -wallJumpSpeed;
+                jumpOffSpeed = -Player.wallJumpSpeed;
             }
             else if (character.GetNode<Sprite>("Sprite").FlipH)
             {
-                wallJumpSpeed = Math.Abs(wallJumpSpeed);
+                jumpOffSpeed = Player.wallJumpSpeed;
             }
             
             // Wall jump
-            Player.velocity = new Vector2(wallJumpSpeed, -Player.jumpSpeed);
+            Player.velocity = new Vector2(jumpOffSpeed, -Player.jumpSpeed);
+            Player.isJumping = true;
             Player.onWall = false;
             nextState = airState;
             playback.Travel(jumpAnimationName);
