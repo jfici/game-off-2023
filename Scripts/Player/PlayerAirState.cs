@@ -19,8 +19,9 @@ public class PlayerAirState : State
         // Jump Buffer
         if(character.IsOnFloor() && !Player.jumpBuffer.IsStopped())
         {
+            // Jump again when touching the ground if jump buffer timer is running
             Player.jumpBuffer.Stop();
-            Player.velocity = new Vector2(0, -Player.jumpSpeed);
+            Player.velocity.y = Player.jumpSpeed;
             Player.isJumping = true;
             playback.Start(jumpAnimationName);
             Player.coyoteTimer.Stop();
@@ -41,6 +42,13 @@ public class PlayerAirState : State
         if(@event.IsActionPressed("jump"))
         {
             Player.jumpBuffer.Start();
+        }
+        
+        // Variable jump height
+        if(@event.IsActionReleased("jump") && Player.velocity.y < (0.5f * Player.jumpSpeed))
+        {
+            // The player jumps twice as high if they release the jump button early
+            Player.velocity.y = 0.5f * Player.jumpSpeed;
         }
     }
     

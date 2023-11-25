@@ -12,6 +12,7 @@ public class Player : KinematicBody2D
     public static Vector2 velocity;
 	public static float runSpeed = 350;
 	public static float jumpSpeed;
+    [Export] public float jumpForce = 750;
     public static float wallJumpSpeed = 1000;
     public static float climbSpeed = 300;
 	public float gravity = 1600;
@@ -81,8 +82,8 @@ public class Player : KinematicBody2D
         
         // Vertical Movement
         // Jumping
-        if(powerHighJump) jumpSpeed = 1200;
-        else jumpSpeed = 700;
+        if(powerHighJump) jumpSpeed = -1.25f * jumpForce;
+        else jumpSpeed = -jumpForce;
         
         if(velocity.y >= 0) isJumping = false;
         

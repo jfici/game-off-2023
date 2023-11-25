@@ -39,7 +39,7 @@ public class PlayerGroundState : State
             
             if(character.IsOnFloor() || !Player.coyoteTimer.IsStopped())
             {
-                Player.velocity = new Vector2(0, -Player.jumpSpeed);
+                Player.velocity.y = Player.jumpSpeed;
                 Player.isJumping = true;
                 Player.onWall = false;
                 nextState = airState;

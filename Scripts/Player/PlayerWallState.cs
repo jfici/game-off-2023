@@ -32,17 +32,19 @@ public class PlayerWallState : State
         if(@event.IsActionPressed("jump"))
         {
             // Wall jump a certain direction based on where the sprite is facing
-            if (!character.GetNode<Sprite>("Sprite").FlipH)
+            //if (!character.GetNode<Sprite>("Sprite").FlipH)
+            if(character.GetNode<RayCast2D>("RayCasts/RayCast2D_Right").IsColliding())
             {
                 jumpOffSpeed = -Player.wallJumpSpeed;
             }
-            else if (character.GetNode<Sprite>("Sprite").FlipH)
+            //else if (character.GetNode<Sprite>("Sprite").FlipH)
+            if(character.GetNode<RayCast2D>("RayCasts/RayCast2D_Left").IsColliding())
             {
                 jumpOffSpeed = Player.wallJumpSpeed;
             }
             
             // Wall jump
-            Player.velocity = new Vector2(jumpOffSpeed, -Player.jumpSpeed);
+            Player.velocity = new Vector2(jumpOffSpeed, Player.jumpSpeed);
             Player.isJumping = true;
             Player.onWall = false;
             nextState = airState;
