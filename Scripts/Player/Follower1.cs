@@ -5,12 +5,16 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Runtime.CompilerServices;
 
-public class Player : KinematicBody2D
+public class Follower1 : KinematicBody2D
 {
+	[Export] public float followingDistance = 70;
+	[Export] public float jumpDelay = 0.15f;
+	
 	// Player movement variables
 	public static Vector2 velocity;
 	public static float runSpeed = 350;
 	public static float jumpSpeed;
+	public float timeToJump = 0f;
 	public static float wallJumpSpeed = 1000;
 	public static float climbSpeed = 300;
 	public static bool onWall;
@@ -24,7 +28,7 @@ public class Player : KinematicBody2D
 	[Export] public bool unlockJump;
 	[Export] public bool unlockGrapple;
 	[Export] public bool unlockSmash;
-	[Export] public float defaultJumpSpeed = 700;
+	[Export] public float defaultJumpSpeed = 900;
 	[Export] public float powerJumpSpeed = 1200;
 	public bool[] powers = new bool[4];
 	public bool canClimb;
@@ -69,9 +73,9 @@ public class Player : KinematicBody2D
 		MoveAndSlide(velocity, new Vector2(0,-1));
 
 		#region  Horizontal movement
-		direction.x = Input.GetAxis("move_left", "move_right");
+		direction.x = getMoveDirection();
 
-		if(direction.x != 0 && stateMachine.CheckIfCanMove())
+		if(direction.x != 0)
 		{
 			velocity.x = runSpeed * direction.x;
 			onWall = false;
@@ -83,31 +87,41 @@ public class Player : KinematicBody2D
 		// Jumping
 		if(powerJump) jumpSpeed = powerJumpSpeed;
 		else jumpSpeed = defaultJumpSpeed;
-		
-		// if(Input.IsActionPressed("jump"))
-		// {
-		//     if(IsOnFloor() || onWall)
-		//     {
-		//         velocity.y = -jumpSpeed;
-		//     }
-			
-		//     if(onWall)
-		//     {
-		//         // Wall jump a certain direction based on where the sprite is facing
-		//         if(!GetNode<Sprite>("Sprite").FlipH)
-		//         {
-		//             wallJumpSpeed = -wallJumpSpeed;
-		//         }
-		//         else if(GetNode<Sprite>("Sprite").FlipH)
-		//         {
-		//             wallJumpSpeed = Math.Abs(wallJumpSpeed);
-		//         }
 
-		//         velocity.x = wallJumpSpeed;
-		//     }
+		if (timeToJump > 0)
+		{
+			timeToJump -= delta;
+		}
+		else if (Input.IsActionPressed("jump") && (IsOnFloor() || onWall))
+		{
+			timeToJump = jumpDelay;
+		}
+		
+		if(timeToJump < 0f)
+		{
+			timeToJump = 0f;
+			if(IsOnFloor() || onWall)
+			{
+				velocity.y = -jumpSpeed;
+			}
 			
-		//     onWall = false;
-		// }
+			if(onWall)
+			{
+				// Wall jump a certain direction based on where the sprite is facing
+				if(!GetNode<Sprite>("Sprite").FlipH)
+				{
+					wallJumpSpeed = -wallJumpSpeed;
+				}
+				else if(GetNode<Sprite>("Sprite").FlipH)
+				{
+					wallJumpSpeed = Math.Abs(wallJumpSpeed);
+				}
+
+				velocity.x = wallJumpSpeed;
+			}
+			
+			onWall = false;
+		}
 		
 		// Gravity
 		if(!IsOnFloor() && !onWall) 
@@ -118,16 +132,16 @@ public class Player : KinematicBody2D
 		}
 		
 		// Wall Climbing
-		direction.y = Input.GetAxis("move_up", "move_down");
+		// direction.y = Input.GetAxis("move_up", "move_down");
 
-		if(direction.y != 0 && onWall && stateMachine.CheckIfCanMove())
-		{
-			velocity.y = climbSpeed * direction.y;
-		}
-		else if(direction.y == 0 && onWall)
-		{
-			velocity = velocity.MoveToward(new Vector2(velocity.x, 0), climbSpeed);
-		}
+		// if(direction.y != 0 && onWall && stateMachine.CheckIfCanMove())
+		// {
+		// 	velocity.y = climbSpeed * direction.y;
+		// }
+		// else if(direction.y == 0 && onWall)
+		// {
+		// 	velocity = velocity.MoveToward(new Vector2(velocity.x, 0), climbSpeed);
+		// }
 		#endregion
 		#endregion
 
@@ -260,5 +274,14 @@ public class Player : KinematicBody2D
 		Control instance = (Control)pauseMenu.Instance();
 		GetParent<Node2D>().AddChild(instance);
 		instance.SetPosition(new Vector2(500, 250));
+	}
+
+	protected float getMoveDirection() {
+		Vector2 relativePosition = GetParent().GetNode<Node2D>("Player").Position - Position;
+		if (Mathf.Abs(relativePosition.x) > followingDistance)
+		{
+			return relativePosition.x > 0 ? 1 : -1;
+		}
+		return 0;
 	}
 }
