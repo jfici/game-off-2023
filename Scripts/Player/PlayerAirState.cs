@@ -23,7 +23,7 @@ public class PlayerAirState : State
             Player.velocity = new Vector2(0, -Player.jumpSpeed);
             Player.isJumping = true;
             playback.Start(jumpAnimationName);
-            GD.Print("Jumping from jump buffer!");
+            Player.coyoteTimer.Stop();
         }
         else if(character.IsOnFloor())
         {
@@ -41,7 +41,6 @@ public class PlayerAirState : State
         if(@event.IsActionPressed("jump"))
         {
             Player.jumpBuffer.Start();
-            GD.Print("Starting timer for jump buffer!");
         }
     }
     

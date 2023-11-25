@@ -35,7 +35,7 @@ public class PlayerGroundState : State
         // Jump if input is pressed while player is on the floor or coyote timer is running
         if(@event.IsActionPressed("jump"))
         {
-            if(!Player.coyoteTimer.IsStopped()) GD.Print("Jumped while coyote timer was running!");
+            // if(!Player.coyoteTimer.IsStopped()) GD.Print("Jumped while coyote timer was running!");
             
             if(character.IsOnFloor() || !Player.coyoteTimer.IsStopped())
             {
@@ -48,8 +48,7 @@ public class PlayerGroundState : State
             }
             else
             {
-                Player.jumpBuffer.Start();
-                GD.Print("Jump buffer!");
+                GD.Print("Can't jump off ground because IsOnFloor() is " + character.IsOnFloor() + " at this point of the current frame!");
             }
         }
     }

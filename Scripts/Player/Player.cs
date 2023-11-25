@@ -8,34 +8,34 @@ using System.Runtime.CompilerServices;
 public class Player : KinematicBody2D
 {
 	// Player movement variables
+    public Vector2 direction;
     public static Vector2 velocity;
 	public static float runSpeed = 350;
 	public static float jumpSpeed;
     public static float wallJumpSpeed = 1000;
     public static float climbSpeed = 300;
-    public static bool onWall;
-	public float gravity = 30;
+	public float gravity = 1600;
 	public float terminalVelocity = 1000;
-	public Vector2 direction;
+    public static bool isJumping;
+    public static bool onWall;
+    public static bool wasOnFloor;
+    public static Timer coyoteTimer;
+    public static Timer jumpBuffer;
     
     // Power-up variables
-    // Change these from Export to static once we have something in-game that unlocks them!!!
-    [Export] public bool unlockClimb;
-    [Export] public bool unlockJump;
-    [Export] public bool unlockGrapple;
-    [Export] public bool unlockSmash;
+    [Export] public bool unlockClimb; //Change to static once something in-game can unlock them
+    [Export] public bool unlockHighJump; //Change to static once something in-game can unlock them
+    [Export] public bool unlockGrapple; //Change to static once something in-game can unlock them
+    [Export] public bool unlockSmash; //Change to static once something in-game can unlock them
     public bool[] powers = new bool[4];
     public bool canClimb;
-    public bool canJump;
+    public bool canHighJump;
     public bool canGrapple;
     public bool canSmash;
     public bool[] canUsePowers = new bool[4];
     public static bool powerClimb;
-    
-    public static bool powerJump;
-    
+    public static bool powerHighJump;
     public static bool powerGrapple;
-    
     public static bool powerSmash;
     public int powerIndex;
     
@@ -50,74 +50,51 @@ public class Player : KinematicBody2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-        animationTree = this.GetNode<AnimationTree>("AnimationTree");
+        // Assign variables to their respective child nodes
+        animationTree = GetNode<AnimationTree>("AnimationTree");
         animationTree.Active = true;
         
-        stateMachine = this.GetNode<CharacterStateMachine>("CharacterStateMachine");
+        coyoteTimer = GetNode<Timer>("CoyoteTimer");
+        jumpBuffer = GetNode<Timer>("JumpBuffer");
         
+        stateMachine = GetNode<CharacterStateMachine>("CharacterStateMachine");
+        
+        // Load the pause menu scene so it can be instantiated when pausing
         pauseMenu = GD.Load<PackedScene>("res://UI/PauseMenuUI.tscn");
         isPaused = false;
-
-        UpdatePowers();
 	}
 
 	public override void _PhysicsProcess(float delta)
-	{        
+	{              
         #region Movement
-        MoveAndSlide(velocity, new Vector2(0,-1));
-
-        #region  Horizontal movement
+        //MoveAndSlide(velocity, new Vector2(0, -1));
         direction.x = Input.GetAxis("move_left", "move_right");
-
+        direction.y = Input.GetAxis("move_up", "move_down");
+        
+        // Horizontal Movement
         if(direction.x != 0 && stateMachine.CheckIfCanMove())
         {
             velocity.x = runSpeed * direction.x;
             onWall = false;
         }
         else velocity = velocity.MoveToward(new Vector2(0, velocity.y), runSpeed);
-        #endregion
-
-        #region Vertical Movement
+        
+        // Vertical Movement
         // Jumping
-        if(powerJump) jumpSpeed = 1200;
+        if(powerHighJump) jumpSpeed = 1200;
         else jumpSpeed = 700;
         
-        // if(Input.IsActionPressed("jump"))
-        // {
-        //     if(IsOnFloor() || onWall)
-        //     {
-        //         velocity.y = -jumpSpeed;
-        //     }
-            
-        //     if(onWall)
-        //     {
-        //         // Wall jump a certain direction based on where the sprite is facing
-        //         if(!GetNode<Sprite>("Sprite").FlipH)
-        //         {
-        //             wallJumpSpeed = -wallJumpSpeed;
-        //         }
-        //         else if(GetNode<Sprite>("Sprite").FlipH)
-        //         {
-        //             wallJumpSpeed = Math.Abs(wallJumpSpeed);
-        //         }
-
-        //         velocity.x = wallJumpSpeed;
-        //     }
-            
-        //     onWall = false;
-        // }
+        if(velocity.y >= 0) isJumping = false;
         
         // Gravity
-        if(!IsOnFloor() && !onWall) 
-		{
+        if(!IsOnFloor() && !onWall && coyoteTimer.IsStopped())
+        {
 			// Make the player fall faster in the air
-            velocity.y += gravity;		
+            velocity.y += gravity * delta;	
 			if(velocity.y > terminalVelocity) velocity.y = terminalVelocity;
 		}
         
         // Wall Climbing
-        direction.y = Input.GetAxis("move_up", "move_down");
-
         if(direction.y != 0 && onWall && stateMachine.CheckIfCanMove())
         {
             velocity.y = climbSpeed * direction.y;
@@ -126,7 +103,17 @@ public class Player : KinematicBody2D
         {
             velocity = velocity.MoveToward(new Vector2(velocity.x, 0), climbSpeed);
         }
-        #endregion
+        
+        // Putting MoveAndSlide() so it's after all movement but before coyote time logic
+        wasOnFloor = IsOnFloor();
+        velocity = MoveAndSlide(velocity, new Vector2(0, -1));
+        
+        // Coyote time
+        if(!IsOnFloor() && wasOnFloor && !isJumping)
+        {
+            velocity.y = 0;
+            coyoteTimer.Start();
+        }
         #endregion
 
         #region Power-ups
@@ -135,7 +122,7 @@ public class Player : KinematicBody2D
         if(unlockClimb)
         {
             powerClimb = true;
-            powerJump = false;
+            powerHighJump = false;
             powerGrapple = false;
             powerSmash = false;
             powerIndex = 0;
@@ -143,21 +130,21 @@ public class Player : KinematicBody2D
             UpdatePowerArrays();
             unlockClimb = false;
         }
-        else if(unlockJump)
+        else if(unlockHighJump)
         {
             powerClimb = false;
-            powerJump = true;
+            powerHighJump = true;
             powerGrapple = false;
             powerSmash = false;
             powerIndex = 1;
-            canJump = true;
+            canHighJump = true;
             UpdatePowerArrays();
-            unlockJump = false;
+            unlockHighJump = false;
         }
         else if(unlockGrapple)
         {
             powerClimb = false;
-            powerJump = false;
+            powerHighJump = false;
             powerGrapple = true;
             powerSmash = false;
             powerIndex = 2;
@@ -168,7 +155,7 @@ public class Player : KinematicBody2D
         else if(unlockSmash)
         {
             powerClimb = false;
-            powerJump = false;
+            powerHighJump = false;
             powerGrapple = false;
             powerSmash = true;
             powerIndex = 3;
@@ -178,61 +165,61 @@ public class Player : KinematicBody2D
         }
         #endregion
 
-		// 'Q' key to cycle through available powers
-		// Powers cycle through climb > jump > grapple > smash
-		if (Input.IsActionJustPressed("power_toggle"))
-		{
-			// Look for the next power that is available
-			for (int i = 1; i < powers.GetLength(0); i++)
-			{
-				// Go back to start of the powers array before reaching the end
-				if ((powerIndex + i) > 3)
-				{
-					i -= 5;
-				}
-				else
-				{
-					// Set power to the next one available
-					if (canUsePowers[powerIndex + i])
-					{
-						powers[powerIndex] = false;
-						powers[powerIndex + i] = true;
-						powerIndex += i;
-						UpdatePowers();
-						break;
-					}
-				}
-			}
-		}
-		#endregion
-		
-		#region Animations
-		// Set blend position to play run and climb animations        
-		if(onWall)
-		{
-			animationTree.Set("parameters/WallMove/blend_position", direction.y);
-		}
-		else if(!onWall)
-		{
-			animationTree.Set("parameters/GroundMove/blend_position", direction.x);
-		}
-		
-		// Flip sprite based on direction of movement
-		if(direction.x > 0) this.GetNode<Sprite>("Sprite").FlipH = false;
-		else if(direction.x < 0) this.GetNode<Sprite>("Sprite").FlipH = true;
-		#endregion
-		
-		#region UI
-		// Pause the game if unpaused when the player hits Esc
-		if(Input.IsActionJustPressed("ui_cancel") && !isPaused) PauseGame();
-		#endregion
+        // 'Q' key to cycle through available powers
+        // Powers cycle through climb > jump > grapple > smash
+        if (Input.IsActionJustPressed("power_toggle"))
+        {
+            // Look for the next power that is available
+            for (int i = 1; i < powers.GetLength(0); i++)
+            {
+                // Go back to start of the powers array before reaching the end
+                if ((powerIndex + i) > 3)
+                {
+                    i -= 5;
+                }
+                else
+                {
+                    // Set power to the next one available
+                    if (canUsePowers[powerIndex + i])
+                    {
+                        powers[powerIndex] = false;
+                        powers[powerIndex + i] = true;
+                        powerIndex += i;
+                        UpdatePowers();
+                        break;
+                    }
+                }
+            }
+        }
+        #endregion
+        
+        #region Animations
+        // Set blend position to play run and climb animations        
+        if(onWall)
+        {
+            animationTree.Set("parameters/WallMove/blend_position", direction.y);
+        }
+        else if(!onWall)
+        {
+            animationTree.Set("parameters/GroundMove/blend_position", direction.x);
+        }
+        
+        // Flip sprite based on direction of movement
+        if(direction.x > 0) this.GetNode<Sprite>("Sprite").FlipH = false;
+        else if(direction.x < 0) this.GetNode<Sprite>("Sprite").FlipH = true;
+        #endregion
+        
+        #region UI
+        // Pause the game if unpaused when the player hits Esc
+        if(Input.IsActionJustPressed("ui_cancel") && !isPaused) PauseGame();
+        #endregion
 	}
     
     private void UpdatePowers()
     {
         // Set power bools equal to what's in the array
         powerClimb = powers[0];
-        powerJump = powers[1];
+        powerHighJump = powers[1];
         powerGrapple = powers[2];
         powerSmash = powers[3];
     }
@@ -241,12 +228,12 @@ public class Player : KinematicBody2D
     {
         // Set power array elements equal to individual bools
         powers[0] = powerClimb;
-        powers[1] = powerJump;
+        powers[1] = powerHighJump;
         powers[2] = powerGrapple;
         powers[3] = powerSmash;
         
         canUsePowers[0] = canClimb;
-        canUsePowers[1] = canJump;
+        canUsePowers[1] = canHighJump;
         canUsePowers[2] = canGrapple;
         canUsePowers[3] = canSmash;
     }
@@ -258,5 +245,5 @@ public class Player : KinematicBody2D
         Control instance = (Control)pauseMenu.Instance();
 		GetParent<Node2D>().AddChild(instance);
 		instance.SetPosition(new Vector2(500, 250));
-	}
+    }
 }
