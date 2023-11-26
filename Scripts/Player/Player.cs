@@ -107,7 +107,7 @@ public class Player : KinematicBody2D
         
         // Putting MoveAndSlide() so it's after all movement but before coyote time logic
         wasOnFloor = IsOnFloor();
-        velocity = MoveAndSlide(velocity, new Vector2(0, -1));
+        MoveAndSlide(velocity, new Vector2(0, -1));
         
         // Coyote time
         if(!IsOnFloor() && wasOnFloor && !isJumping)

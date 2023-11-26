@@ -14,6 +14,11 @@ config/name="Game Off 2023"
 run/main_scene="res://Scenes/Main Menu.tscn"
 config/icon="res://icon.png"
 
+[display]
+
+window/stretch/mode="viewport"
+window/stretch/aspect="keep"
+
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
@@ -61,10 +66,15 @@ power_toggle={
 2d_render/layer_3="enemy"
 2d_render/layer_4="collectable"
 2d_render/layer_5="climbable"
+2d_render/layer_6="trap"
+2d_render/layer_7="companion"
 2d_physics/layer_1="wall"
 2d_physics/layer_2="player"
 2d_physics/layer_3="enemy"
 2d_physics/layer_4="collectable"
+2d_physics/layer_5="climbable"
+2d_physics/layer_6="trap"
+2d_physics/layer_7="companion"
 
 [mono]
 

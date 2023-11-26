@@ -399,13 +399,13 @@ shape = SubResource( 1 )
 [node name="RayCast2D_Left" type="RayCast2D" parent="RayCasts"]
 enabled = true
 cast_to = Vector2( -17, 0 )
-collision_mask = 16
+collision_mask = 17
 script = ExtResource( 9 )
 
 [node name="RayCast2D_Right" type="RayCast2D" parent="RayCasts"]
 enabled = true
 cast_to = Vector2( 17, 0 )
-collision_mask = 16
+collision_mask = 17
 script = ExtResource( 9 )
 
 [node name="RayCast2D_UpL" type="RayCast2D" parent="RayCasts"]
@@ -442,8 +442,8 @@ tree_root = SubResource( 4 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/playback = SubResource( 5 )
-parameters/GroundMove/blend_position = 0.0
-parameters/WallMove/blend_position = 0.0
+parameters/GroundMove/blend_position = -0.00338411
+parameters/WallMove/blend_position = -0.00338411
 
 [node name="CoyoteTimer" type="Timer" parent="."]
 wait_time = 0.1
@@ -486,6 +486,7 @@ text = "State: "
 script = ExtResource( 10 )
 
 [node name="DebugVelocityYLabel" type="Label" parent="."]
+visible = false
 margin_left = -59.0
 margin_top = -55.0
 margin_right = 19.0
@@ -494,7 +495,6 @@ text = "Velocity Y: 0"
 script = ExtResource( 11 )
 
 [node name="DebugPowerLabel" type="Label" parent="."]
-visible = false
 margin_left = -45.0
 margin_top = -55.0
 margin_right = 2.0
