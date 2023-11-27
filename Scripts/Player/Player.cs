@@ -43,10 +43,8 @@ public class Player : KinematicBody2D
     // Animation and state machine variables
     public AnimationTree animationTree;
     public CharacterStateMachine stateMachine;
-    
-    // UI variables
-    PackedScene pauseMenu;
-    public static bool isPaused;
+    public static bool dying;
+    public static bool dead;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -59,10 +57,6 @@ public class Player : KinematicBody2D
         jumpBuffer = GetNode<Timer>("JumpBuffer");
         
         stateMachine = GetNode<CharacterStateMachine>("CharacterStateMachine");
-        
-        // Load the pause menu scene so it can be instantiated when pausing
-        pauseMenu = GD.Load<PackedScene>("res://UI/PauseMenuUI.tscn");
-        isPaused = false;
 	}
 
 	public override void _PhysicsProcess(float delta)
@@ -209,11 +203,6 @@ public class Player : KinematicBody2D
         if(direction.x > 0) this.GetNode<Sprite>("Sprite").FlipH = false;
         else if(direction.x < 0) this.GetNode<Sprite>("Sprite").FlipH = true;
         #endregion
-        
-        #region UI
-        // Pause the game if unpaused when the player hits Esc
-        if(Input.IsActionJustPressed("ui_cancel") && !isPaused) PauseGame();
-        #endregion
 	}
     
     private void UpdatePowers()
@@ -237,14 +226,5 @@ public class Player : KinematicBody2D
         canUsePowers[1] = canHighJump;
         canUsePowers[2] = canGrapple;
         canUsePowers[3] = canSmash;
-    }
-    
-    private void PauseGame()
-    {
-        isPaused = true;
-        GetTree().Paused = true;
-        Control instance = (Control)pauseMenu.Instance();
-		GetParent<Node2D>().AddChild(instance);
-		instance.SetPosition(new Vector2(500, 250));
     }
 }

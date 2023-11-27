@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=45 format=2]
 
 [ext_resource path="res://Art/PlatformerSprites/PlayerOneSpriteSheet.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Player/Player.cs" type="Script" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://Scripts/Debug/DebugStateLabel.cs" type="Script" id=10]
 [ext_resource path="res://Scripts/Debug/DebugVelocityYLabel.cs" type="Script" id=11]
 [ext_resource path="res://Scripts/Debug/DebugPowerLabel.cs" type="Script" id=12]
+[ext_resource path="res://Scripts/Player/PlayerDeathState.cs" type="Script" id=13]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 16, 32 )
@@ -29,6 +30,72 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=27]
+resource_name = "death"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 4, 5, 6 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ ExtResource( 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Sprite:hframes")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 8 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Sprite:vframes")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 8 ]
+}
+tracks/4/type = "method"
+tracks/4/path = NodePath("CharacterStateMachine/DeathState")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.4 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "" ],
+"method": "On_Animation_Tree_Animation_Finished"
+} ]
 }
 
 [sub_resource type="Animation" id=3]
@@ -206,6 +273,7 @@ tracks/3/keys = {
 [sub_resource type="Animation" id=17]
 resource_name = "wall"
 length = 0.3
+loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -342,6 +410,9 @@ blend_point_1/pos = 1.0
 blend_point_2/node = SubResource( 21 )
 blend_point_2/pos = -1.0
 
+[sub_resource type="AnimationNodeAnimation" id=28]
+animation = "death"
+
 [sub_resource type="AnimationNodeAnimation" id=12]
 animation = "jump_end"
 
@@ -364,18 +435,26 @@ auto_advance = true
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=26]
 
+[sub_resource type="AnimationNodeStateMachineTransition" id=29]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=30]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=31]
+
 [sub_resource type="AnimationNodeStateMachine" id=4]
 states/GroundMove/node = SubResource( 10 )
 states/GroundMove/position = Vector2( -193.651, 133 )
 states/WallMove/node = SubResource( 22 )
 states/WallMove/position = Vector2( -52.651, -6 )
+states/death/node = SubResource( 28 )
+states/death/position = Vector2( 329.425, 15.304 )
 states/jump_end/node = SubResource( 12 )
 states/jump_end/position = Vector2( -52.651, 244 )
 states/jump_start/node = SubResource( 13 )
 states/jump_start/position = Vector2( 81.425, 133 )
-transitions = [ "GroundMove", "jump_start", SubResource( 14 ), "jump_start", "jump_end", SubResource( 15 ), "jump_end", "GroundMove", SubResource( 16 ), "GroundMove", "WallMove", SubResource( 23 ), "WallMove", "GroundMove", SubResource( 24 ), "WallMove", "jump_start", SubResource( 25 ), "jump_start", "WallMove", SubResource( 26 ) ]
+transitions = [ "GroundMove", "jump_start", SubResource( 14 ), "jump_start", "jump_end", SubResource( 15 ), "jump_end", "GroundMove", SubResource( 16 ), "GroundMove", "WallMove", SubResource( 23 ), "WallMove", "GroundMove", SubResource( 24 ), "WallMove", "jump_start", SubResource( 25 ), "jump_start", "WallMove", SubResource( 26 ), "GroundMove", "death", SubResource( 29 ), "WallMove", "death", SubResource( 30 ), "jump_start", "death", SubResource( 31 ) ]
 start_node = "GroundMove"
-graph_offset = Vector2( -646.575, -29.696 )
+graph_offset = Vector2( -506.575, -39.696 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=5]
 
@@ -430,6 +509,7 @@ current = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 2 )
+anims/death = SubResource( 27 )
 anims/idle = SubResource( 3 )
 anims/jump_end = SubResource( 11 )
 anims/jump_start = ExtResource( 8 )
@@ -442,7 +522,7 @@ tree_root = SubResource( 4 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/playback = SubResource( 5 )
-parameters/GroundMove/blend_position = -0.00338411
+parameters/GroundMove/blend_position = 0.282572
 parameters/WallMove/blend_position = -0.00338411
 
 [node name="CoyoteTimer" type="Timer" parent="."]
@@ -460,12 +540,14 @@ script = ExtResource( 4 )
 script = ExtResource( 6 )
 jumpAnimationName = "jump_start"
 wallAnimationName = "WallMove"
+deathAnimationName = "death"
 
 [node name="AirState" type="Node" parent="CharacterStateMachine"]
 script = ExtResource( 3 )
 landingAnimationName = "jump_end"
 wallAnimationName = "WallMove"
 jumpAnimationName = "jump_start"
+deathAnimationName = "death"
 
 [node name="LandingState" type="Node" parent="CharacterStateMachine"]
 script = ExtResource( 5 )
@@ -476,6 +558,11 @@ landingAnimationName = "jump_end"
 script = ExtResource( 7 )
 jumpAnimationName = "jump_start"
 landingAnimationName = "jump_end"
+deathAnimationName = "death"
+
+[node name="DeathState" type="Node" parent="CharacterStateMachine"]
+script = ExtResource( 13 )
+canMove = false
 
 [node name="DebugStateLabel" type="Label" parent="."]
 margin_left = -52.0
@@ -503,3 +590,4 @@ text = "Power: "
 script = ExtResource( 12 )
 
 [connection signal="animation_finished" from="AnimationPlayer" to="CharacterStateMachine/LandingState" method="_on_AnimationPlayer_animation_finished"]
+[connection signal="animation_finished" from="AnimationPlayer" to="CharacterStateMachine/DeathState" method="_on_AnimationPlayer_animation_finished"]

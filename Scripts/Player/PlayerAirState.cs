@@ -6,12 +6,14 @@ public class PlayerAirState : State
     [Export] public string landingAnimationName = "Landing Animation";
     [Export] public string wallAnimationName = "Wall Animation";
     [Export] public string jumpAnimationName = "Jump Animation";
+    [Export] public string deathAnimationName = "Death Animation";
     
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         landingState = this.GetParent<Node>().GetNode<State>("LandingState");
         wallState = this.GetParent<Node>().GetNode<State>("WallState");
+        deathState = this.GetParent<Node>().GetNode<State>("DeathState");
     }
 
     public override void StateProcess(float delta)
@@ -33,6 +35,13 @@ public class PlayerAirState : State
         else if(Player.onWall)
         {
             nextState = wallState;
+        }
+        
+        // Kill the player if they collided with an enemy/trap
+        if(Player.dying)
+        {
+            nextState = deathState;
+            playback.Travel(deathAnimationName);
         }
     }
     

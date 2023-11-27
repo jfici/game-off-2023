@@ -3,28 +3,36 @@ using System;
 
 public class OptionsMenuUI : Control
 {
-    // Declare member variables here. Examples:
-    // private int a = 2;
-    // private string b = "text";
+    public Control mainMenu;
+    public Control pauseMenu;    
     
-    
-
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        
+        if(GetTree().CurrentScene.Name == "Main Menu")
+        {
+            mainMenu = GetParent().GetNode<Control>("MainMenuUI");
+        }
+        else
+        {
+            pauseMenu = GetParent().GetNode<Control>("PauseMenuUI");
+        }
     }
-
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//      
-//  }
     
     private void _on_BackButton_pressed()
     {
-        QueueFree();
-        if(Player.isPaused) GetParent().GetNode<Control>("PauseMenuUI").Show();
-        else GetParent().GetNode<Control>("MainMenuUI").Show();
+        Hide();
+        
+        // Go back to the main menu if the game hasn't started
+        if(GetTree().CurrentScene.Name == "Main Menu")
+        {
+            mainMenu.Show();
+        }
+        // Go back to the pause menu if you're in-game
+        else if(MenuManager.isPaused)
+        {
+            pauseMenu.Show();
+            MenuManager.canUnpause = true;
+        }
     }
 }

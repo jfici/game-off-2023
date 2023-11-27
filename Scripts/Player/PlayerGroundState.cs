@@ -5,6 +5,7 @@ public class PlayerGroundState : State
 { 
     [Export] public string jumpAnimationName = "Jump Animation";
     [Export] public string wallAnimationName = "Wall Animation";
+    [Export] public string deathAnimationName = "Death Animation";
     
     public KinematicBody2D player;
     
@@ -13,6 +14,7 @@ public class PlayerGroundState : State
     {
         airState = this.GetParent<Node>().GetNode<State>("AirState");
         wallState = this.GetParent<Node>().GetNode<State>("WallState");
+        deathState = this.GetParent<Node>().GetNode<State>("DeathState");
         
         player = GetParent().GetParent<KinematicBody2D>();
     }
@@ -23,10 +25,18 @@ public class PlayerGroundState : State
         {
             nextState = airState;
         }
+        
         if(Player.onWall)
         {
             nextState = wallState;
             playback.Travel(wallAnimationName);
+        }
+        
+        // Kill the player if they collided with an enemy/trap
+        if(Player.dying)
+        {
+            nextState = deathState;
+            playback.Travel(deathAnimationName);
         }
     }
     

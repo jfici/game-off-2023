@@ -3,26 +3,26 @@ using System;
 
 public class MainMenuUI : Control
 {
-   PackedScene optionsMenu;
+   public Control optionsMenu;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		optionsMenu = GD.Load<PackedScene>("res://UI/OptionsMenuUI.tscn");
+		// Initialize the options menu variable and hide the UI
+        optionsMenu = GetParent().GetNode<Control>("OptionsMenuUI");
+        optionsMenu.Hide();
 	}
 	
 	private void _on_StartButton_pressed()
 	{
-		// Load Level 1 Scene
-		//GetTree().ChangeScene("[string of Level 1 path]");
+		// Load the level scene
+		GetTree().ChangeScene("res://Scenes/Climb Dungeon.tscn");
 	}
 	
 	private void _on_OptionsButton_pressed()
 	{
-		this.Hide();
-		Control instance = (Control)optionsMenu.Instance();
-		GetParent<Node2D>().AddChild(instance);
-		instance.SetPosition(new Vector2(500, 250));
+		Hide();
+		optionsMenu.Show();
 	}
 	
 	private void _on_QuitButton_pressed()

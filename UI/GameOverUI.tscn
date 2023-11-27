@@ -1,0 +1,45 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/UI/GameOverUI.cs" type="Script" id=1]
+
+[node name="GameOverUI" type="Control"]
+script = ExtResource( 1 )
+
+[node name="Panel" type="Panel" parent="."]
+self_modulate = Color( 1, 1, 1, 0.392157 )
+margin_left = 400.0
+margin_top = 120.0
+margin_right = 880.0
+margin_bottom = 600.0
+
+[node name="GameOverMenuContainer" type="VBoxContainer" parent="Panel"]
+margin_left = 90.0
+margin_top = 40.0
+margin_right = 390.0
+margin_bottom = 440.0
+alignment = 1
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="GameOverLabel" type="Label" parent="Panel/GameOverMenuContainer"]
+margin_top = 172.0
+margin_right = 300.0
+margin_bottom = 186.0
+text = "GAME OVER"
+align = 1
+
+[node name="YouDiedLabel" type="Label" parent="Panel/GameOverMenuContainer"]
+margin_top = 190.0
+margin_right = 300.0
+margin_bottom = 204.0
+text = "You died :("
+align = 1
+
+[node name="QuitMenuButton" type="Button" parent="Panel/GameOverMenuContainer"]
+margin_top = 208.0
+margin_right = 300.0
+margin_bottom = 228.0
+text = "QUIT TO MAIN MENU"
+
+[connection signal="pressed" from="Panel/GameOverMenuContainer/QuitMenuButton" to="." method="_on_QuitMenuButton_pressed"]
