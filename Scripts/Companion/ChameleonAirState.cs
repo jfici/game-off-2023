@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class PlayerAirState : State
+public class ChameleonAirState : State
 {
     [Export] public string landingAnimationName = "Landing Animation";
     [Export] public string wallAnimationName = "Wall Animation";
@@ -19,26 +19,26 @@ public class PlayerAirState : State
     public override void StateProcess(float delta)
     {
         // Jump Buffer
-        if(character.IsOnFloor() && !Player.jumpBuffer.IsStopped())
+        if(character.IsOnFloor() && !ChameleonCompanion.jumpBuffer.IsStopped())
         {
             // Jump again when touching the ground if jump buffer timer is running
-            Player.jumpBuffer.Stop();
-            Player.velocity.y = Player.jumpSpeed;
-            Player.isJumping = true;
+            ChameleonCompanion.jumpBuffer.Stop();
+            ChameleonCompanion.velocity.y = ChameleonCompanion.jumpSpeed;
+            ChameleonCompanion.isJumping = true;
             playback.Start(jumpAnimationName);
-            Player.coyoteTimer.Stop();
+            ChameleonCompanion.coyoteTimer.Stop();
         }
         else if(character.IsOnFloor())
         {
             nextState = landingState;
         }
-        else if(Player.onWall)
+        else if(ChameleonCompanion.onWall)
         {
             nextState = wallState;
         }
         
-        // Kill the player if they collided with an enemy/trap
-        if(Player.dying)
+        // Kill the companion if they collided with an enemy/trap
+        if(ChameleonCompanion.dying)
         {
             nextState = deathState;
             playback.Travel(deathAnimationName);
@@ -50,14 +50,14 @@ public class PlayerAirState : State
         // Start timer for jump buffer if trying to jump while in the air
         if(@event.IsActionPressed("jump"))
         {
-            Player.jumpBuffer.Start();
+            ChameleonCompanion.jumpBuffer.Start();
         }
         
         // Variable jump height
-        if(@event.IsActionReleased("jump") && Player.velocity.y < (0.5f * Player.jumpSpeed))
+        if(@event.IsActionReleased("jump") && ChameleonCompanion.velocity.y < (0.5f * ChameleonCompanion.jumpSpeed))
         {
-            // The player jumps half as high if they release the jump button early
-            Player.velocity.y = 0.5f * Player.jumpSpeed;
+            // The companion jumps half as high if the player release the jump button early
+            ChameleonCompanion.velocity.y = 0.5f * ChameleonCompanion.jumpSpeed;
         }
     }
     

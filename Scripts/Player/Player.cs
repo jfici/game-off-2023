@@ -24,7 +24,7 @@ public class Player : KinematicBody2D
     public static Timer jumpBuffer;
     
     // Power-up variables
-    [Export] public bool unlockClimb; //Change to static once something in-game can unlock them
+    public static bool unlockClimb;
     [Export] public bool unlockHighJump; //Change to static once something in-game can unlock them
     [Export] public bool unlockGrapple; //Change to static once something in-game can unlock them
     [Export] public bool unlockSmash; //Change to static once something in-game can unlock them

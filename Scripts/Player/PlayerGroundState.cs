@@ -7,16 +7,12 @@ public class PlayerGroundState : State
     [Export] public string wallAnimationName = "Wall Animation";
     [Export] public string deathAnimationName = "Death Animation";
     
-    public KinematicBody2D player;
-    
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         airState = this.GetParent<Node>().GetNode<State>("AirState");
         wallState = this.GetParent<Node>().GetNode<State>("WallState");
         deathState = this.GetParent<Node>().GetNode<State>("DeathState");
-        
-        player = GetParent().GetParent<KinematicBody2D>();
     }
     
     public override void StateProcess(float delta)
@@ -45,8 +41,6 @@ public class PlayerGroundState : State
         // Jump if input is pressed while player is on the floor or coyote timer is running
         if(@event.IsActionPressed("jump"))
         {
-            // if(!Player.coyoteTimer.IsStopped()) GD.Print("Jumped while coyote timer was running!");
-            
             if(character.IsOnFloor() || !Player.coyoteTimer.IsStopped())
             {
                 Player.velocity.y = Player.jumpSpeed;
