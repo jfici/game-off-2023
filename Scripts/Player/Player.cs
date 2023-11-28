@@ -62,7 +62,6 @@ public class Player : KinematicBody2D
 	public override void _PhysicsProcess(float delta)
 	{              
         #region Movement
-        //MoveAndSlide(velocity, new Vector2(0, -1));
         direction.x = Input.GetAxis("move_left", "move_right");
         direction.y = Input.GetAxis("move_up", "move_down");
         

@@ -17,5 +17,9 @@ public class Trap : Area2D
         {
             Player.dying = true;
         }
+        else if(body.CollisionLayer == 64)
+        {
+            ChameleonCompanion.dying = true;
+        }
     }
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=2]
+[gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://Art/PixelAdventureFrog/Enemies/Chameleon/Attack (84x38).png" type="Texture" id=1]
 [ext_resource path="res://Art/PixelAdventureFrog/Enemies/Chameleon/Hit (84x38).png" type="Texture" id=2]
@@ -11,11 +11,12 @@
 [ext_resource path="res://Scripts/Companion/ChameleonGroundState.cs" type="Script" id=9]
 [ext_resource path="res://Scripts/Debug/DebugStateLabel.cs" type="Script" id=10]
 [ext_resource path="res://Scripts/Companion/ChameleonRayCast.cs" type="Script" id=11]
+[ext_resource path="res://Scripts/Debug/DebugJumpLabel.cs" type="Script" id=12]
 [ext_resource path="res://Art/PixelAdventureFrog/Enemies/Chameleon/Run (84x38).png" type="Texture" id=14]
 [ext_resource path="res://Art/PixelAdventureFrog/Enemies/Chameleon/Idle (84x38).png" type="Texture" id=15]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 16, 15.5 )
+extents = Vector2( 12.5, 15.5 )
 
 [sub_resource type="Animation" id=2]
 length = 0.001
@@ -85,6 +86,18 @@ tracks/3/keys = {
 "method": "On_Animation_Tree_Animation_Finished"
 } ]
 }
+tracks/4/type = "value"
+tracks/4/path = NodePath("Sprite:flip_h")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
 [sub_resource type="Animation" id=3]
 resource_name = "idle"
@@ -125,6 +138,18 @@ tracks/2/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ 26 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Sprite:flip_h")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
 }
 
 [sub_resource type="Animation" id=11]
@@ -180,6 +205,18 @@ tracks/3/keys = {
 "method": "On_Animation_Tree_Animation_Finished"
 } ]
 }
+tracks/4/type = "value"
+tracks/4/path = NodePath("Sprite:flip_h")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
 [sub_resource type="Animation" id=32]
 resource_name = "jump_start"
@@ -221,10 +258,22 @@ tracks/2/keys = {
 "update": 1,
 "values": [ 16 ]
 }
+tracks/3/type = "value"
+tracks/3/path = NodePath("Sprite:flip_h")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
 [sub_resource type="Animation" id=6]
 resource_name = "run"
-length = 0.7
+length = 0.8
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -233,10 +282,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 1, 3, 5, 7, 9, 13, 15 ]
+"values": [ 1, 3, 5, 7, 9, 11, 13, 15 ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Sprite:texture")
@@ -262,10 +311,22 @@ tracks/2/keys = {
 "update": 1,
 "values": [ 16 ]
 }
+tracks/3/type = "value"
+tracks/3/path = NodePath("Sprite:flip_h")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
 [sub_resource type="Animation" id=17]
 resource_name = "wall"
-length = 0.3
+length = 0.1
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -344,130 +405,146 @@ tracks/2/keys = {
 "update": 1,
 "values": [ 16 ]
 }
+tracks/3/type = "value"
+tracks/3/path = NodePath("Sprite:flip_h")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
-[sub_resource type="AnimationNodeAnimation" id=7]
+[sub_resource type="AnimationNodeAnimation" id=55]
 animation = "idle"
 
-[sub_resource type="AnimationNodeAnimation" id=8]
+[sub_resource type="AnimationNodeAnimation" id=56]
 animation = "run"
 
-[sub_resource type="AnimationNodeAnimation" id=9]
+[sub_resource type="AnimationNodeAnimation" id=57]
 animation = "run"
 
-[sub_resource type="AnimationNodeBlendSpace1D" id=10]
-blend_point_0/node = SubResource( 7 )
+[sub_resource type="AnimationNodeBlendSpace1D" id=58]
+blend_point_0/node = SubResource( 55 )
 blend_point_0/pos = 0.0
-blend_point_1/node = SubResource( 8 )
+blend_point_1/node = SubResource( 56 )
 blend_point_1/pos = 1.0
-blend_point_2/node = SubResource( 9 )
+blend_point_2/node = SubResource( 57 )
 blend_point_2/pos = -1.0
 
-[sub_resource type="AnimationNodeAnimation" id=19]
+[sub_resource type="AnimationNodeAnimation" id=51]
 animation = "wall"
 
-[sub_resource type="AnimationNodeAnimation" id=20]
+[sub_resource type="AnimationNodeAnimation" id=52]
 animation = "wall_climb"
 
-[sub_resource type="AnimationNodeAnimation" id=21]
+[sub_resource type="AnimationNodeAnimation" id=53]
 animation = "wall_climb"
 
-[sub_resource type="AnimationNodeBlendSpace1D" id=22]
-blend_point_0/node = SubResource( 19 )
+[sub_resource type="AnimationNodeBlendSpace1D" id=54]
+blend_point_0/node = SubResource( 51 )
 blend_point_0/pos = 0.0
-blend_point_1/node = SubResource( 20 )
+blend_point_1/node = SubResource( 52 )
 blend_point_1/pos = 1.0
-blend_point_2/node = SubResource( 21 )
+blend_point_2/node = SubResource( 53 )
 blend_point_2/pos = -1.0
 
-[sub_resource type="AnimationNodeAnimation" id=28]
+[sub_resource type="AnimationNodeAnimation" id=36]
 animation = "death"
 
-[sub_resource type="AnimationNodeAnimation" id=12]
+[sub_resource type="AnimationNodeAnimation" id=37]
 animation = "jump_end"
 
-[sub_resource type="AnimationNodeAnimation" id=13]
+[sub_resource type="AnimationNodeAnimation" id=38]
 animation = "jump_start"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=14]
+[sub_resource type="AnimationNodeStateMachineTransition" id=40]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=15]
+[sub_resource type="AnimationNodeStateMachineTransition" id=47]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=16]
+[sub_resource type="AnimationNodeStateMachineTransition" id=59]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=60]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=61]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=62]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=63]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=64]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=65]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=66]
 switch_mode = 2
 auto_advance = true
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=23]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=24]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=25]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=26]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=29]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=30]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=31]
-
-[sub_resource type="AnimationNodeStateMachine" id=4]
-states/GroundMove/node = SubResource( 10 )
-states/GroundMove/position = Vector2( -193.651, 133 )
-states/WallMove/node = SubResource( 22 )
-states/WallMove/position = Vector2( -52.651, -6 )
-states/death/node = SubResource( 28 )
-states/death/position = Vector2( 329.425, 15.304 )
-states/jump_end/node = SubResource( 12 )
-states/jump_end/position = Vector2( -52.651, 244 )
-states/jump_start/node = SubResource( 13 )
-states/jump_start/position = Vector2( 81.425, 133 )
-transitions = [ "GroundMove", "jump_start", SubResource( 14 ), "jump_start", "jump_end", SubResource( 15 ), "jump_end", "GroundMove", SubResource( 16 ), "GroundMove", "WallMove", SubResource( 23 ), "WallMove", "GroundMove", SubResource( 24 ), "WallMove", "jump_start", SubResource( 25 ), "jump_start", "WallMove", SubResource( 26 ), "GroundMove", "death", SubResource( 29 ), "WallMove", "death", SubResource( 30 ), "jump_start", "death", SubResource( 31 ) ]
+[sub_resource type="AnimationNodeStateMachine" id=49]
+states/GroundMove/node = SubResource( 58 )
+states/GroundMove/position = Vector2( 187, 134 )
+states/WallMove/node = SubResource( 54 )
+states/WallMove/position = Vector2( 368, 5 )
+states/death/node = SubResource( 36 )
+states/death/position = Vector2( 637, 5 )
+states/jump_end/node = SubResource( 37 )
+states/jump_end/position = Vector2( 368, 262 )
+states/jump_start/node = SubResource( 38 )
+states/jump_start/position = Vector2( 509, 134 )
+transitions = [ "jump_start", "jump_end", SubResource( 40 ), "jump_start", "death", SubResource( 47 ), "GroundMove", "WallMove", SubResource( 59 ), "GroundMove", "jump_start", SubResource( 60 ), "WallMove", "GroundMove", SubResource( 61 ), "WallMove", "jump_start", SubResource( 62 ), "jump_start", "WallMove", SubResource( 63 ), "WallMove", "death", SubResource( 64 ), "GroundMove", "death", SubResource( 65 ), "jump_end", "GroundMove", SubResource( 66 ) ]
 start_node = "GroundMove"
-graph_offset = Vector2( -506.575, -39.696 )
+graph_offset = Vector2( -50, 80.0779 )
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=5]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=50]
 
 [node name="ChameleonCompanion" type="KinematicBody2D"]
 collision_layer = 64
-collision_mask = 19
+collision_mask = 17
 collision/safe_margin = 0.001
 script = ExtResource( 5 )
 
 [node name="Sprite" type="Sprite" parent="."]
-texture = ExtResource( 14 )
-flip_h = true
-hframes = 16
+texture = ExtResource( 15 )
+hframes = 26
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, 3.5 )
+position = Vector2( 4.5, 3.5 )
 shape = SubResource( 1 )
 
 [node name="RayCasts" type="Node2D" parent="."]
 
 [node name="RayCast2D_Left" type="RayCast2D" parent="RayCasts"]
+position = Vector2( 9, 3 )
 enabled = true
-cast_to = Vector2( -17, 0 )
+cast_to = Vector2( -23, 0 )
 collision_mask = 17
 script = ExtResource( 11 )
 
 [node name="RayCast2D_Right" type="RayCast2D" parent="RayCasts"]
+position = Vector2( 0, 3 )
 enabled = true
-cast_to = Vector2( 17, 0 )
+cast_to = Vector2( 23, 0 )
 collision_mask = 17
+script = ExtResource( 11 )
 
 [node name="RayCast2D_UpL" type="RayCast2D" parent="RayCasts"]
 show_behind_parent = true
-position = Vector2( -16, 0 )
+position = Vector2( -8, 0 )
 enabled = true
 cast_to = Vector2( 0, -12 )
 collision_mask = 17
+script = ExtResource( 11 )
 
 [node name="RayCast2D_UpR" type="RayCast2D" parent="RayCasts"]
 show_behind_parent = true
-position = Vector2( 16, 0 )
+position = Vector2( 17, 0 )
 enabled = true
 cast_to = Vector2( 0, -12 )
 collision_mask = 17
+script = ExtResource( 11 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 2 )
@@ -480,12 +557,12 @@ anims/wall = SubResource( 17 )
 anims/wall_climb = SubResource( 33 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 4 )
+tree_root = SubResource( 49 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/playback = SubResource( 5 )
-parameters/GroundMove/blend_position = 0.282572
-parameters/WallMove/blend_position = -0.00338411
+parameters/playback = SubResource( 50 )
+parameters/GroundMove/blend_position = 0.0
+parameters/WallMove/blend_position = 0.0
 
 [node name="CoyoteTimer" type="Timer" parent="."]
 wait_time = 0.1
@@ -500,18 +577,30 @@ script = ExtResource( 4 )
 
 [node name="GroundState" type="Node" parent="CharacterStateMachine"]
 script = ExtResource( 9 )
+jumpAnimationName = "jump_start"
+wallAnimationName = "WallMove"
+deathAnimationName = "death"
 
 [node name="AirState" type="Node" parent="CharacterStateMachine"]
 script = ExtResource( 3 )
+landingAnimationName = "jump_end"
+wallAnimationName = "WallMove"
+jumpAnimationName = "jump_start"
+deathAnimationName = "death"
 
 [node name="LandingState" type="Node" parent="CharacterStateMachine"]
 script = ExtResource( 6 )
+canMove = false
 
 [node name="WallState" type="Node" parent="CharacterStateMachine"]
 script = ExtResource( 8 )
+jumpAnimationName = "jump_start"
+landingAnimationName = "jump_end"
+deathAnimationName = "death"
 
 [node name="DeathState" type="Node" parent="CharacterStateMachine"]
 script = ExtResource( 7 )
+canMove = false
 
 [node name="DebugStateLabel" type="Label" parent="."]
 margin_left = -52.0
@@ -520,6 +609,14 @@ margin_right = 53.0
 margin_bottom = -39.0
 text = "State: "
 script = ExtResource( 10 )
+
+[node name="DebugJumpLabel" type="Label" parent="."]
+margin_left = -57.0
+margin_top = -35.0
+margin_right = 28.0
+margin_bottom = -21.0
+text = "Jump Time: "
+script = ExtResource( 12 )
 
 [connection signal="animation_finished" from="AnimationPlayer" to="CharacterStateMachine/LandingState" method="_on_AnimationPlayer_animation_finished"]
 [connection signal="animation_finished" from="AnimationPlayer" to="CharacterStateMachine/DeathState" method="_on_AnimationPlayer_animation_finished"]

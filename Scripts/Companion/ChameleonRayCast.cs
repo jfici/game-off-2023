@@ -24,12 +24,22 @@ public class ChameleonRayCast : RayCast2D
                 {
                     ChameleonCompanion.onWall = true;
 
-                    if (ChameleonCompanion.timeToJump < 0 || Input.IsActionJustPressed("move_right") || Input.IsActionJustPressed("move_left"))
+                    if (ChameleonCompanion.companionJump || Input.IsActionJustPressed("move_right") || Input.IsActionJustPressed("move_left"))
                     {
                         ChameleonCompanion.onWall = false;
                     }
                 }
                 else ChameleonCompanion.onWall = false;
+                
+                // Flip companion's sprite based on which side the wall is on
+                if (rayLeft.IsColliding())
+                {
+                    GetParent().GetParent().GetNode<Sprite>("Sprite").FlipH = false;
+                }
+                else if (rayRight.IsColliding())
+                {
+                    GetParent().GetParent().GetNode<Sprite>("Sprite").FlipH = true;
+                }
 
         if (rayUpL.IsColliding() || rayUpR.IsColliding())
         {

@@ -10,27 +10,27 @@ public class ChameleonGroundState : State
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        airState = this.GetParent<Node>().GetNode<State>("AirState");
-        wallState = this.GetParent<Node>().GetNode<State>("WallState");
-        deathState = this.GetParent<Node>().GetNode<State>("DeathState");
+        airState = GetParent<Node>().GetNode<State>("AirState");
+        wallState = GetParent<Node>().GetNode<State>("WallState");
+        deathState = GetParent<Node>().GetNode<State>("DeathState");
     }
     
     public override void StateProcess(float delta)
     {
         // Companion jumps after a delay from when the player jumped
-        if(ChameleonCompanion.timeToJump < 0)
+        if(ChameleonCompanion.companionJump)
         {
             if(character.IsOnFloor())
 			{
                 ChameleonCompanion.velocity.y = ChameleonCompanion.jumpSpeed;
                 ChameleonCompanion.isJumping = true;
                 ChameleonCompanion.onWall = false;
+                ChameleonCompanion.companionJump = false;
                 nextState = airState;
                 playback.Travel(jumpAnimationName);
                 ChameleonCompanion.coyoteTimer.Stop();
 			}
         }
-        
         
         if(!character.IsOnFloor() && !character.IsOnWall() && ChameleonCompanion.coyoteTimer.IsStopped())
         {

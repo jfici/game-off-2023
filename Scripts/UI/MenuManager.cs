@@ -64,9 +64,10 @@ public class MenuManager : CanvasLayer
         #endregion
         
         // Game Over
-        if(Player.dead)
+        if(Player.dead || ChameleonCompanion.dead)
         {
             gameOverMenu.Show();
+            GetTree().Paused = true;
         }
     }
     

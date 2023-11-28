@@ -42,15 +42,21 @@ public class ChameleonCrate : Area2D
 
             // Unlock the power tied to the animal in the container
             Player.unlockClimb = true;
-            
-            // Spawn four chameleon companions
-            for(int i = 1; i < 5; i++)
-            {
-                var follower = chameleon.Instance();
-                var followerPos = new Vector2(Position.x - (25 * i), Position.y);
-                GetParent().AddChild(follower);
-                follower.Set("position", followerPos);
-            }
+
+            // Spawn a chameleon companion
+            var follower = chameleon.Instance();
+            var followerPos = new Vector2(Position.x - 100, Position.y);
+            GetParent().CallDeferred("add_child", follower);
+            follower.Set("position", followerPos);
+
+            // Or spawn three chameleon companions
+            // for (int i = 1; i < 4; i++)
+            // {
+            //     var follower = chameleon.Instance();
+            //     var followerPos = new Vector2(Position.x - (100 * i), Position.y);
+            //     GetParent().CallDeferred("add_child", follower);
+            //     follower.Set("position", followerPos);
+            // }
         }
     }
 }

@@ -11,9 +11,9 @@ public class ChameleonAirState : State
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        landingState = this.GetParent<Node>().GetNode<State>("LandingState");
-        wallState = this.GetParent<Node>().GetNode<State>("WallState");
-        deathState = this.GetParent<Node>().GetNode<State>("DeathState");
+        landingState = GetParent<Node>().GetNode<State>("LandingState");
+        wallState = GetParent<Node>().GetNode<State>("WallState");
+        deathState = GetParent<Node>().GetNode<State>("DeathState");
     }
 
     public override void StateProcess(float delta)
@@ -59,6 +59,16 @@ public class ChameleonAirState : State
             // The companion jumps half as high if the player release the jump button early
             ChameleonCompanion.velocity.y = 0.5f * ChameleonCompanion.jumpSpeed;
         }
+        
+        // // Move the chameleon in the same direction as the player for better air control
+        // if(@event.IsActionReleased("move_right"))
+        // {
+        //     ChameleonCompanion.velocity.x = ChameleonCompanion.runSpeed;
+        // }
+        // else if(@event.IsActionReleased("move_left"))
+        // {
+        //     ChameleonCompanion.velocity.x = -ChameleonCompanion.runSpeed;
+        // }
     }
     
     public override void OnExit()

@@ -7,6 +7,7 @@ public class ChameleonCompanion : KinematicBody2D
     [Export] public float followingDistance = 70;
 	[Export] public float jumpDelay = 0.15f;
     public static float timeToJump = 0f;
+    public static bool companionJump;
     
     // Companion movement variables
     public Vector2 direction;
@@ -45,34 +46,39 @@ public class ChameleonCompanion : KinematicBody2D
 	public override void _PhysicsProcess(float delta)
 	{              
         #region Movement
-        //MoveAndSlide(velocity, new Vector2(0, -1));
         direction.x = Input.GetAxis("move_left", "move_right");
         direction.y = Input.GetAxis("move_up", "move_down");
-        
+            
         // Horizontal Movement
-        if(direction.x != 0 && stateMachine.CheckIfCanMove())
-        {
-            velocity.x = runSpeed * direction.x;
-            onWall = false;
-        }
-        else velocity = velocity.MoveToward(new Vector2(0, velocity.y), runSpeed);
+        // direction.x = GetMoveDirectionX();
+        // direction.y = GetMoveDirectionY();
+
+		if(direction.x != 0 && stateMachine.CheckIfCanMove())
+		{
+			velocity.x = runSpeed * direction.x;
+			onWall = false;
+		}
+		else velocity = velocity.MoveToward(new Vector2(0, velocity.y), runSpeed);
         
         // Vertical Movement
         // Jumping
         if(velocity.y >= 0) isJumping = false;
         
+        
+        // Countdown until companion jumps
         if (timeToJump > 0)
 		{
 			timeToJump -= delta;
 		}
-		else if (Input.IsActionPressed("jump") && (IsOnFloor() || onWall))
+		else if (Input.IsActionJustPressed("jump") && (IsOnFloor() || onWall))
 		{
 			timeToJump = jumpDelay;
 		}
 		
 		if(timeToJump < 0f)
 		{
-			timeToJump = 0f;
+			companionJump = true;
+            timeToJump = 0f;
         }
         
         // Gravity
@@ -117,18 +123,28 @@ public class ChameleonCompanion : KinematicBody2D
         }
         
         // Flip sprite based on direction of movement
-        if(direction.x > 0) this.GetNode<Sprite>("Sprite").FlipH = false;
-        else if(direction.x < 0) this.GetNode<Sprite>("Sprite").FlipH = true;
+        if(direction.x > 0) GetNode<Sprite>("Sprite").FlipH = true;
+        else if(direction.x < 0) GetNode<Sprite>("Sprite").FlipH = false;
         #endregion
 	}
     
-    protected float GetMoveDirection()
+    protected float GetMoveDirectionX()
     {
 		Vector2 relativePosition = GetParent().GetNode<Node2D>("Player").Position - Position;
 		if (Mathf.Abs(relativePosition.x) > followingDistance)
 		{
 			return relativePosition.x > 0 ? 1 : -1;
 		}
-		return 0;
+        return 0;
 	}
+    
+    protected float GetMoveDirectionY()
+    {
+        Vector2 relativePosition = GetParent().GetNode<Node2D>("Player").Position - Position;
+        if (Mathf.Abs(relativePosition.y) > followingDistance)
+		{
+			return relativePosition.y > 0 ? 1 : -1;
+		}
+        return 0;
+    }
 }

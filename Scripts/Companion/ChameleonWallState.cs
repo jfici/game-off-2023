@@ -19,10 +19,12 @@ public class ChameleonWallState : State
     public override void StateProcess(float delta)
     {
         // Companion jumps after a delay from when the player jumped
-        if(ChameleonCompanion.timeToJump < 0)
+        if(ChameleonCompanion.companionJump)
         {
-            if(ChameleonCompanion.onWall)
-			{
+            //if(ChameleonCompanion.onWall)
+			//{
+                GD.Print("Companion should be jumping off wall!");
+                
                 // Wall jump a certain direction based on which side is on the wall
                 if (character.GetNode<RayCast2D>("RayCasts/RayCast2D_Right").IsColliding())
                 {
@@ -35,12 +37,15 @@ public class ChameleonWallState : State
                 }
 
                 // Wall jump
-                ChameleonCompanion.velocity = new Vector2(jumpOffSpeed, ChameleonCompanion.jumpSpeed);
+                //ChameleonCompanion.velocity = new Vector2(jumpOffSpeed, ChameleonCompanion.jumpSpeed);
+                ChameleonCompanion.velocity.y = ChameleonCompanion.jumpSpeed;
+                ChameleonCompanion.velocity.x = jumpOffSpeed;
                 ChameleonCompanion.isJumping = true;
                 ChameleonCompanion.onWall = false;
+                ChameleonCompanion.companionJump = false;
                 nextState = airState;
                 playback.Travel(jumpAnimationName);
-            }
+            //}
         }
         
         if(!character.IsOnFloor() && !ChameleonCompanion.onWall)

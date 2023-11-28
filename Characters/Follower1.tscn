@@ -457,7 +457,6 @@ wallAnimationName = "WallMove"
 [node name="LandingState" type="Node" parent="CharacterStateMachine"]
 script = ExtResource( 5 )
 canMove = false
-landingAnimationName = "jump_end"
 
 [node name="WallState" type="Node" parent="CharacterStateMachine"]
 script = ExtResource( 7 )

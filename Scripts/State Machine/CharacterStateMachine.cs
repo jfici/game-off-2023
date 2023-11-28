@@ -45,7 +45,6 @@ public class CharacterStateMachine : Node
                 child.character = character;
                 child.playback = (AnimationNodeStateMachinePlayback)animationTree.Get("parameters/playback");
             }
-            else GD.Print("Child " + child.Name + " is not a State for CharacterStateMachine");
         }
     }
 
