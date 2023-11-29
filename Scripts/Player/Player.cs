@@ -25,9 +25,9 @@ public class Player : KinematicBody2D
     
     // Power-up variables
     public static bool unlockClimb;
-    [Export] public bool unlockHighJump; //Change to static once something in-game can unlock them
-    [Export] public bool unlockGrapple; //Change to static once something in-game can unlock them
-    [Export] public bool unlockSmash; //Change to static once something in-game can unlock them
+    public static bool unlockHighJump;
+    [Export] public bool unlockGrapple; //Change to static if something in-game can unlock them
+    [Export] public bool unlockSmash; //Change to static if something in-game can unlock them
     public bool[] powers = new bool[4];
     public bool canClimb;
     public bool canHighJump;

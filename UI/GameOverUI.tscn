@@ -23,23 +23,30 @@ __meta__ = {
 }
 
 [node name="GameOverLabel" type="Label" parent="Panel/GameOverMenuContainer"]
-margin_top = 172.0
+margin_top = 160.0
 margin_right = 300.0
-margin_bottom = 186.0
+margin_bottom = 174.0
 text = "GAME OVER"
 align = 1
 
 [node name="YouDiedLabel" type="Label" parent="Panel/GameOverMenuContainer"]
-margin_top = 190.0
+margin_top = 178.0
 margin_right = 300.0
-margin_bottom = 204.0
+margin_bottom = 192.0
 text = "You died :("
 align = 1
 
-[node name="QuitMenuButton" type="Button" parent="Panel/GameOverMenuContainer"]
-margin_top = 208.0
+[node name="RetryButton" type="Button" parent="Panel/GameOverMenuContainer"]
+margin_top = 196.0
 margin_right = 300.0
-margin_bottom = 228.0
+margin_bottom = 216.0
+text = "RETRY"
+
+[node name="QuitMenuButton" type="Button" parent="Panel/GameOverMenuContainer"]
+margin_top = 220.0
+margin_right = 300.0
+margin_bottom = 240.0
 text = "QUIT TO MAIN MENU"
 
+[connection signal="pressed" from="Panel/GameOverMenuContainer/RetryButton" to="." method="_on_RetryButton_pressed"]
 [connection signal="pressed" from="Panel/GameOverMenuContainer/QuitMenuButton" to="." method="_on_QuitMenuButton_pressed"]

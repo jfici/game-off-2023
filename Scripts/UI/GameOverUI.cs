@@ -19,17 +19,27 @@ public class GameOverUI : Control
             {
                 deathLabel.Text = "You died :(";
             }
-            else if(ChameleonCompanion.dead)
+            else if(ChameleonCompanion.dead || SnakeCompanion.dead)
             {
                 deathLabel.Text = "A friend died :(";
             }
         }
     }
     
+    private void _on_RetryButton_pressed()
+    {
+        GetTree().ReloadCurrentScene();
+        ExitGameOver();
+    }
+    
     private void _on_QuitMenuButton_pressed()
     {
         GetTree().ChangeScene("Scenes/Main Menu.tscn");
-        GetTree().Paused = false;
+        ExitGameOver();
+    }
+    
+    private void ExitGameOver()
+    {
         MenuManager.isPaused = false;
         MenuManager.canUnpause = false;
         GetTree().Paused = false;
@@ -37,5 +47,7 @@ public class GameOverUI : Control
         Player.dead = false;
         ChameleonCompanion.dying = false;
         ChameleonCompanion.dead = false;
+        SnakeCompanion.dying = false;
+        SnakeCompanion.dead = false;
     }
 }
