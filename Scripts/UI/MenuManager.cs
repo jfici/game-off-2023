@@ -11,19 +11,34 @@ public class MenuManager : CanvasLayer
     // Pause game bools
     public static bool isPaused;
     public static bool canUnpause;
+    
+    // Player power indicator UI variables
+    public ColorRect chameleonIcon;
+    public ColorRect snakeIcon;
+    
+    // Checkpoint UI variables
+    public Label checkpointLabel;
+    public Timer checkpointTextTimer;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        // Initializing menu variables
+        // Initializing UI variables
         pauseMenu = GetNode<Control>("PauseMenuUI");
         optionsMenu = GetNode<Control>("OptionsMenuUI");
         gameOverMenu = GetNode<Control>("GameOverUI");
+        chameleonIcon = GetNode<ColorRect>("ChameleonRect");
+        snakeIcon = GetNode<ColorRect>("SnakeRect");
+        checkpointLabel = GetNode<Label>("CheckpointLabel");
+        checkpointTextTimer = GetNode<Timer>("CheckpointLabel/CheckpointTextTimer");
         
-        // Hiding menus when game scene first loads
+        // Hiding UI when game scene first loads
         pauseMenu.Hide();
         optionsMenu.Hide();
         gameOverMenu.Hide();
+        chameleonIcon.Hide();
+        snakeIcon.Hide();
+        checkpointLabel.Hide();
         
         // Make sure the game can be paused when game scene first loads
         isPaused = false;
@@ -63,6 +78,26 @@ public class MenuManager : CanvasLayer
         }
         #endregion
         
+        // Show animal icons when player has their power enabled
+        if(Player.powerClimb)
+        {
+            chameleonIcon.Show();
+            snakeIcon.Hide();
+        }
+        else if(Player.powerHighJump)
+        {
+            chameleonIcon.Hide();
+            snakeIcon.Show();
+        }
+        
+        // Show checkpoint text for a short period after player reaches a checkpoint
+        if(Player.checkpointSet)
+        {
+            checkpointLabel.Show();
+            checkpointTextTimer.Start();
+            Player.checkpointSet = false;    
+        }
+        
         // Game Over
         if(Player.dead || ChameleonCompanion.dead || SnakeCompanion.dead)
         {
@@ -77,5 +112,10 @@ public class MenuManager : CanvasLayer
         GetTree().Paused = true;
         isPaused = true;
         canUnpause = true;
+    }
+    
+    private void _on_CheckpointTextTimer_timeout()
+    {
+        checkpointLabel.Hide();
     }
 }

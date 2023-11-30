@@ -16,7 +16,7 @@ public class MainMenuUI : Control
 	private void _on_StartButton_pressed()
 	{
 		// Load the level scene
-		GetTree().ChangeScene("res://Scenes/High Jump Dungeon.tscn");
+		GetTree().ChangeScene("res://Scenes/Final Dungeon.tscn");
 	}
 	
 	private void _on_OptionsButton_pressed()

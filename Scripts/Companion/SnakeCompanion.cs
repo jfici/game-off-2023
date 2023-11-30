@@ -4,7 +4,6 @@ using System;
 public class SnakeCompanion : KinematicBody2D
 {
     /// Companion follow variables
-    [Export] public float followingDistance = 70;
 	[Export] public float jumpDelay = 0.15f;
     public static float timeToJump = 0f;
     public static bool companionJump;
@@ -44,10 +43,6 @@ public class SnakeCompanion : KinematicBody2D
 	{              
         #region Movement
         direction.x = Input.GetAxis("move_left", "move_right");
-            
-        // Horizontal Movement
-        // direction.x = GetMoveDirectionX();
-        // direction.y = GetMoveDirectionY();
 
 		if(direction.x != 0 && stateMachine.CheckIfCanMove())
 		{
@@ -105,24 +100,4 @@ public class SnakeCompanion : KinematicBody2D
         else if(direction.x < 0) GetNode<Sprite>("Sprite").FlipH = true;
         #endregion
 	}
-    
-    protected float GetMoveDirectionX()
-    {
-		Vector2 relativePosition = GetParent().GetNode<Node2D>("Player").Position - Position;
-		if (Mathf.Abs(relativePosition.x) > followingDistance)
-		{
-			return relativePosition.x > 0 ? 1 : -1;
-		}
-        return 0;
-	}
-    
-    protected float GetMoveDirectionY()
-    {
-        Vector2 relativePosition = GetParent().GetNode<Node2D>("Player").Position - Position;
-        if (Mathf.Abs(relativePosition.y) > followingDistance)
-		{
-			return relativePosition.y > 0 ? 1 : -1;
-		}
-        return 0;
-    }
 }

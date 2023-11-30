@@ -16,14 +16,6 @@ public class SnakeAirState : State
 
     public override void StateProcess(float delta)
     {        
-        // // Variable jump height
-        if(Input.IsActionJustReleased("jump"))
-        {
-            // The companion jumps half as high if the player release the jump button early
-            //SnakeCompanion.velocity.y = 0.5f * SnakeCompanion.jumpSpeed;
-            SnakeCompanion.velocity.y = Player.velocity.y;
-        }
-        
         // Jump Buffer
         if(character.IsOnFloor() && !SnakeCompanion.jumpBuffer.IsStopped())
         {
@@ -53,13 +45,6 @@ public class SnakeAirState : State
         if(@event.IsActionPressed("jump"))
         {
             SnakeCompanion.jumpBuffer.Start();
-        }
-        
-        // Variable jump height
-        if(@event.IsActionReleased("jump") && SnakeCompanion.velocity.y < (0.5f * SnakeCompanion.jumpSpeed))
-        {
-            // The companion jumps half as high if the player releases the jump button early
-            SnakeCompanion.velocity.y = 0.5f * SnakeCompanion.jumpSpeed;
         }
     }
     

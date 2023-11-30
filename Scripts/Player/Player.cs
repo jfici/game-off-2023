@@ -45,6 +45,10 @@ public class Player : KinematicBody2D
     public CharacterStateMachine stateMachine;
     public static bool dying;
     public static bool dead;
+    
+    // Save data and checkpoint variables
+    public static Vector2 checkpointPos = new Vector2(32, -32);
+    public static bool checkpointSet;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -57,6 +61,9 @@ public class Player : KinematicBody2D
         jumpBuffer = GetNode<Timer>("JumpBuffer");
         
         stateMachine = GetNode<CharacterStateMachine>("CharacterStateMachine");
+        
+        // Spawn the player at the checkpoint
+        Position = checkpointPos;
 	}
 
 	public override void _PhysicsProcess(float delta)

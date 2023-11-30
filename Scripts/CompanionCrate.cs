@@ -29,6 +29,9 @@ public class CompanionCrate : Area2D
             follower = chameleon.Instance();
             Player.unlockClimb = true;
             
+            // Set the checkpoint near the crate
+            Player.checkpointPos = new Vector2(Position.x - 100, Position.y);
+            
             GateValve();
             SpawnCompanion();
         }
@@ -44,6 +47,10 @@ public class CompanionCrate : Area2D
             // Initialize the companion that's in the crate and unlock its power
             follower = snake.Instance();
             Player.unlockHighJump = true;
+            
+            // Set the checkpoint near the crate
+            Player.checkpointPos = new Vector2(Position.x, Position.y);
+            Player.checkpointSet = true;
             
             GateValve();
             SpawnCompanion();
@@ -65,7 +72,7 @@ public class CompanionCrate : Area2D
     private void SpawnCompanion()
     {
         // Spawn one companion
-        var followerPos = new Vector2(Position.x - 100, Position.y);
+        var followerPos = new Vector2(Position.x, Position.y);
         GetParent().CallDeferred("add_child", follower);
         follower.Set("position", followerPos);
 
