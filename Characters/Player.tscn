@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=2]
+[gd_scene load_steps=49 format=2]
 
 [ext_resource path="res://Art/PlatformerSprites/PlayerOneSpriteSheet.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/Player/Player.cs" type="Script" id=2]
@@ -13,6 +13,10 @@
 [ext_resource path="res://Scripts/Debug/DebugVelocityYLabel.cs" type="Script" id=11]
 [ext_resource path="res://Scripts/Debug/DebugPowerLabel.cs" type="Script" id=12]
 [ext_resource path="res://Scripts/Player/PlayerDeathState.cs" type="Script" id=13]
+[ext_resource path="res://Audio/GJ2023_Walk-001.wav" type="AudioStream" id=14]
+[ext_resource path="res://Audio/GJ2023_Walk-002.wav" type="AudioStream" id=15]
+[ext_resource path="res://Audio/GJ2023_Jump.wav" type="AudioStream" id=16]
+[ext_resource path="res://Audio/GJ2023_Land.wav" type="AudioStream" id=17]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 16, 32 )
@@ -216,6 +220,20 @@ tracks/4/keys = {
 "method": "On_Animation_Tree_Animation_Finished"
 } ]
 }
+tracks/5/type = "audio"
+tracks/5/path = NodePath("Audio/Player_land")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"clips": [ {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource( 17 )
+} ],
+"times": PoolRealArray( 0 )
+}
 
 [sub_resource type="Animation" id=6]
 resource_name = "run"
@@ -268,6 +286,24 @@ tracks/3/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ 8 ]
+}
+tracks/4/type = "audio"
+tracks/4/path = NodePath("Audio/Player_Run")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"clips": [ {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource( 14 )
+}, {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource( 15 )
+} ],
+"times": PoolRealArray( 0, 0.2 )
 }
 
 [sub_resource type="Animation" id=17]
@@ -454,7 +490,7 @@ states/jump_start/node = SubResource( 13 )
 states/jump_start/position = Vector2( 81.425, 133 )
 transitions = [ "GroundMove", "jump_start", SubResource( 14 ), "jump_start", "jump_end", SubResource( 15 ), "jump_end", "GroundMove", SubResource( 16 ), "GroundMove", "WallMove", SubResource( 23 ), "WallMove", "GroundMove", SubResource( 24 ), "WallMove", "jump_start", SubResource( 25 ), "jump_start", "WallMove", SubResource( 26 ), "GroundMove", "death", SubResource( 29 ), "WallMove", "death", SubResource( 30 ), "jump_start", "death", SubResource( 31 ) ]
 start_node = "GroundMove"
-graph_offset = Vector2( -506.575, -39.696 )
+graph_offset = Vector2( -862, 31.908 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=5]
 
@@ -520,7 +556,6 @@ anims/wall_climb = SubResource( 18 )
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource( 4 )
 anim_player = NodePath("../AnimationPlayer")
-active = true
 parameters/playback = SubResource( 5 )
 parameters/GroundMove/blend_position = 0.0
 parameters/WallMove/blend_position = 0.0
@@ -587,6 +622,17 @@ margin_right = 2.0
 margin_bottom = -41.0
 text = "Power: "
 script = ExtResource( 12 )
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="Player_Run" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 14 )
+volume_db = -9.0
+
+[node name="Player_Jump" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 16 )
+
+[node name="Player_land" type="AudioStreamPlayer" parent="Audio"]
 
 [connection signal="animation_finished" from="AnimationPlayer" to="CharacterStateMachine/LandingState" method="_on_AnimationPlayer_animation_finished"]
 [connection signal="animation_finished" from="AnimationPlayer" to="CharacterStateMachine/DeathState" method="_on_AnimationPlayer_animation_finished"]
