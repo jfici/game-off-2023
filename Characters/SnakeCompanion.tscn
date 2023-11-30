@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://Scripts/Debug/DebugStateLabel.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/State Machine/CharacterStateMachine.cs" type="Script" id=2]
@@ -9,6 +9,8 @@
 [ext_resource path="res://Scripts/Debug/DebugJumpLabel.cs" type="Script" id=7]
 [ext_resource path="res://Scripts/Companion/SnakeGroundState.cs" type="Script" id=8]
 [ext_resource path="res://Scripts/Companion/SnakeAirState.cs" type="Script" id=9]
+[ext_resource path="res://Audio/A_CrateBreak.wav" type="AudioStream" id=10]
+[ext_resource path="res://Audio/A_Jump.wav" type="AudioStream" id=11]
 [ext_resource path="res://Art/Tiny, Tiny Heroes - Animals/spritesheet.png" type="Texture" id=14]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -265,6 +267,20 @@ tracks/3/keys = {
 "update": 1,
 "values": [ 30 ]
 }
+tracks/4/type = "audio"
+tracks/4/path = NodePath("Audio/A_Jump")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"clips": [ {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource( 11 )
+} ],
+"times": PoolRealArray( 0 )
+}
 
 [sub_resource type="Animation" id=14]
 resource_name = "run"
@@ -475,6 +491,16 @@ margin_right = 28.0
 margin_bottom = -21.0
 text = "Jump Time: "
 script = ExtResource( 7 )
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="A_CrateOpen" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 10 )
+volume_db = -9.0
+
+[node name="A_Jump" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource( 11 )
+pitch_scale = 2.0
 
 [connection signal="animation_finished" from="AnimationPlayer" to="CharacterStateMachine/LandingState" method="_on_AnimationPlayer_animation_finished"]
 [connection signal="animation_finished" from="AnimationPlayer" to="CharacterStateMachine/DeathState" method="_on_AnimationPlayer_animation_finished"]
