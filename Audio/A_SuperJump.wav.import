@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/A_Walk-001.wav-0a14d76a68aaab81fd64e46b83710302.sample"
+path="res://.import/A_SuperJump.wav-ebb8c2e723f5f5de23709626f4e40ee8.sample"
 
 [deps]
 
-source_file="res://Audio/A_Walk-001.wav"
-dest_files=[ "res://.import/A_Walk-001.wav-0a14d76a68aaab81fd64e46b83710302.sample" ]
+source_file="res://Audio/A_SuperJump.wav"
+dest_files=[ "res://.import/A_SuperJump.wav-ebb8c2e723f5f5de23709626f4e40ee8.sample" ]
 
 [params]
 

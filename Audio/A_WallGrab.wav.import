@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/A_Walk-002.wav-9a62396d772420183385aee4baf3361e.sample"
+path="res://.import/A_WallGrab.wav-63dca0d12fdff5f0fb76e1250be99e02.sample"
 
 [deps]
 
-source_file="res://Audio/A_Walk-002.wav"
-dest_files=[ "res://.import/A_Walk-002.wav-9a62396d772420183385aee4baf3361e.sample" ]
+source_file="res://Audio/A_WallGrab.wav"
+dest_files=[ "res://.import/A_WallGrab.wav-63dca0d12fdff5f0fb76e1250be99e02.sample" ]
 
 [params]
 

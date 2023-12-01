@@ -368,7 +368,7 @@ extents = Vector2( 16, 16 )
 [node name="Climb Dungeon" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( -80, -48 )
+position = Vector2( -681, -39 )
 
 [node name="TileMap" type="TileMap" parent="."]
 scale = Vector2( 2, 2 )

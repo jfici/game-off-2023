@@ -47,7 +47,7 @@ public class Player : KinematicBody2D
 	public static bool dead;
 	
 	// Save data and checkpoint variables
-	public static Vector2 checkpointPos = new Vector2(32, -32);
+	public static Vector2 checkpointPos = new Vector2(-30, -10);
 	public static bool checkpointSet;
 
 	// Called when the node enters the scene tree for the first time.
@@ -141,6 +141,8 @@ public class Player : KinematicBody2D
 			canHighJump = true;
 			UpdatePowerArrays();
 			unlockHighJump = false;
+			
+			GetNode<AudioStreamPlayer>("Audio/Player_Jump").Stream = (AudioStream)ResourceLoader.Load("res://Audio/A_SuperJump.wav");
 		}
 		else if(unlockGrapple)
 		{
