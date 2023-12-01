@@ -47,7 +47,7 @@ public class Player : KinematicBody2D
     public static bool dead;
     
     // Save data and checkpoint variables
-    public static Vector2 checkpointPos = new Vector2(32, -32);
+    public static Vector2 checkpointPos = new Vector2(0, 0);
     public static bool checkpointSet;
 
 	// Called when the node enters the scene tree for the first time.
