@@ -17,38 +17,38 @@ public class Player : KinematicBody2D
 	public static float climbSpeed = 300;
 	public float gravity = 1600;
 	public float terminalVelocity = 1000;
-	public static bool isJumping;
-	public static bool onWall;
-	public static bool wasOnFloor;
-	public static Timer coyoteTimer;
-	public static Timer jumpBuffer;
-	
-	// Power-up variables
-	public static bool unlockClimb;
-	public static bool unlockHighJump;
-	[Export] public bool unlockGrapple; //Change to static if something in-game can unlock them
-	[Export] public bool unlockSmash; //Change to static if something in-game can unlock them
-	public bool[] powers = new bool[4];
-	public bool canClimb;
-	public bool canHighJump;
-	public bool canGrapple;
-	public bool canSmash;
-	public bool[] canUsePowers = new bool[4];
-	public static bool powerClimb;
-	public static bool powerHighJump;
-	public static bool powerGrapple;
-	public static bool powerSmash;
-	public int powerIndex;
-	
-	// Animation and state machine variables
-	public AnimationTree animationTree;
-	public CharacterStateMachine stateMachine;
-	public static bool dying;
-	public static bool dead;
-	
-	// Save data and checkpoint variables
-	public static Vector2 checkpointPos = new Vector2(-30, -10);
-	public static bool checkpointSet;
+    public static bool isJumping;
+    public static bool onWall;
+    public static bool wasOnFloor;
+    public static Timer coyoteTimer;
+    public static Timer jumpBuffer;
+    
+    // Power-up variables
+    public static bool unlockClimb;
+    public static bool unlockHighJump;
+    [Export] public bool unlockGrapple; //Change to static if something in-game can unlock them
+    [Export] public bool unlockSmash; //Change to static if something in-game can unlock them
+    public bool[] powers = new bool[4];
+    public bool canClimb;
+    public bool canHighJump;
+    public bool canGrapple;
+    public bool canSmash;
+    public bool[] canUsePowers = new bool[4];
+    public static bool powerClimb;
+    public static bool powerHighJump;
+    public static bool powerGrapple;
+    public static bool powerSmash;
+    public int powerIndex;
+    
+    // Animation and state machine variables
+    public AnimationTree animationTree;
+    public CharacterStateMachine stateMachine;
+    public static bool dying;
+    public static bool dead;
+    
+    // Save data and checkpoint variables
+    public static Vector2 checkpointPos = new Vector2(32, -32);
+    public static bool checkpointSet;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()

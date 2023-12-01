@@ -16,7 +16,7 @@ public class MainMenuUI : Control
 	private void _on_StartButton_pressed()
 	{
 		// Load the level scene
-		GetTree().ChangeScene("res://Scenes/Final Dungeon.tscn");
+		GetTree().ChangeScene("res://Scenes/Game Level.tscn");
 	}
 	
 	private void _on_OptionsButton_pressed()
@@ -28,17 +28,5 @@ public class MainMenuUI : Control
 	private void _on_QuitButton_pressed()
 	{
 		GetTree().Quit();
-	}
-	
-	// Placeholder methods to load prototype levels
-	private void _on_JoeyButton_pressed()
-	{
-		// Load Joey's prototype scene
-		GetTree().ChangeScene("res://Scenes/JoeyWorkspace.tscn");
-	}
-	private void _on_BrandonButton_pressed()
-	{
-		// Load Brandon's prototype scene
-		GetTree().ChangeScene("res://Scenes/Brandon/Brandon.tscn");
 	}
 }

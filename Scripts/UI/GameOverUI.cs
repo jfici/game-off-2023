@@ -49,9 +49,5 @@ public class GameOverUI : Control
         ChameleonCompanion.dead = false;
         SnakeCompanion.dying = false;
         SnakeCompanion.dead = false;
-        ChameleonCompanion.companionJump = true;
-        ChameleonCompanion.timeToJump = 0f;
-        SnakeCompanion.companionJump = true;
-        SnakeCompanion.timeToJump = 0f;
     }
 }

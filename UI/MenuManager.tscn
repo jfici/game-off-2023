@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://UI/PauseMenuUI.tscn" type="PackedScene" id=1]
 [ext_resource path="res://UI/OptionsMenuUI.tscn" type="PackedScene" id=2]
@@ -6,6 +6,8 @@
 [ext_resource path="res://Scripts/UI/MenuManager.cs" type="Script" id=4]
 [ext_resource path="res://Art/Tiny, Tiny Heroes - Animals/spritesheet.png" type="Texture" id=5]
 [ext_resource path="res://Art/PixelAdventureFrog/Enemies/Chameleon/Idle (84x38).png" type="Texture" id=6]
+[ext_resource path="res://Scripts/UI/WinUI.cs" type="Script" id=7]
+[ext_resource path="res://UI/WinUI.tscn" type="PackedScene" id=8]
 
 [node name="MenuManager" type="CanvasLayer"]
 pause_mode = 2
@@ -19,6 +21,10 @@ visible = false
 
 [node name="GameOverUI" parent="." instance=ExtResource( 3 )]
 visible = false
+
+[node name="WinUI" parent="." instance=ExtResource( 8 )]
+visible = false
+script = ExtResource( 7 )
 
 [node name="CheckpointLabel" type="Label" parent="."]
 visible = false

@@ -7,6 +7,7 @@ public class MenuManager : CanvasLayer
     public Control pauseMenu;
     public Control optionsMenu;
     public Control gameOverMenu;
+    public Control winMenu;
     
     // Pause game bools
     public static bool isPaused;
@@ -19,6 +20,9 @@ public class MenuManager : CanvasLayer
     // Checkpoint UI variables
     public Label checkpointLabel;
     public Timer checkpointTextTimer;
+    
+    // Win condition variables
+    public static int reptilesRescued = 0;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -27,6 +31,7 @@ public class MenuManager : CanvasLayer
         pauseMenu = GetNode<Control>("PauseMenuUI");
         optionsMenu = GetNode<Control>("OptionsMenuUI");
         gameOverMenu = GetNode<Control>("GameOverUI");
+        winMenu = GetNode<Control>("WinUI");
         chameleonIcon = GetNode<ColorRect>("ChameleonRect");
         snakeIcon = GetNode<ColorRect>("SnakeRect");
         checkpointLabel = GetNode<Label>("CheckpointLabel");
@@ -36,6 +41,7 @@ public class MenuManager : CanvasLayer
         pauseMenu.Hide();
         optionsMenu.Hide();
         gameOverMenu.Hide();
+        winMenu.Hide();
         chameleonIcon.Hide();
         snakeIcon.Hide();
         checkpointLabel.Hide();
@@ -102,6 +108,13 @@ public class MenuManager : CanvasLayer
         if(Player.dead || ChameleonCompanion.dead || SnakeCompanion.dead)
         {
             gameOverMenu.Show();
+            GetTree().Paused = true;
+        }
+        
+        // Win
+        if(reptilesRescued == 4)
+        {
+            winMenu.Show();
             GetTree().Paused = true;
         }
     }

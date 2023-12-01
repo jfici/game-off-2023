@@ -1,9 +1,12 @@
+<<<<<<< HEAD
 [gd_scene load_steps=16 format=2]
+=======
+[gd_scene load_steps=15 format=2]
+>>>>>>> da4458e196259620d3fd8e42b0c380194ccbd219
 
 [ext_resource path="res://Art/PixelAdventureFrog/Terrain/Terrain (16x16).png" type="Texture" id=2]
 [ext_resource path="res://Spikes.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Sawblade.tscn" type="PackedScene" id=4]
-[ext_resource path="res://UI/MenuManager.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scripts/CompanionCrate.cs" type="Script" id=6]
 [ext_resource path="res://Art/PixelAdventureFrog/Items/Boxes/Box3/Idle.png" type="Texture" id=7]
 [ext_resource path="res://Art/PixelAdventureFrog/Enemies/Chameleon/Idle (84x38).png" type="Texture" id=8]
@@ -366,6 +369,12 @@ extents = Vector2( 16, 16 )
 
 [node name="Climb Dungeon" type="Node2D"]
 
+<<<<<<< HEAD
+=======
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( -80, -48 )
+
+>>>>>>> da4458e196259620d3fd8e42b0c380194ccbd219
 [node name="TileMap" type="TileMap" parent="."]
 scale = Vector2( 2, 2 )
 tile_set = SubResource( 1 )
@@ -546,8 +555,6 @@ position = Vector2( -1392, 1104 )
 
 [node name="Spikes47" parent="Traps" instance=ExtResource( 3 )]
 position = Vector2( -1360, 1104 )
-
-[node name="MenuManager" parent="." instance=ExtResource( 5 )]
 
 [node name="ChameleonCrate" type="Area2D" parent="."]
 position = Vector2( -2304, 1152 )

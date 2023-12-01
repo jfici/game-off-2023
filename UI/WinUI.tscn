@@ -1,0 +1,42 @@
+[gd_scene format=2]
+
+[node name="WinUI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Panel" type="Panel" parent="."]
+self_modulate = Color( 1, 1, 1, 0.392157 )
+margin_left = 400.0
+margin_top = 120.0
+margin_right = 880.0
+margin_bottom = 600.0
+
+[node name="WinMenuContainer" type="VBoxContainer" parent="Panel"]
+margin_left = 90.0
+margin_top = 40.0
+margin_right = 390.0
+margin_bottom = 440.0
+alignment = 1
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="WinLabel" type="Label" parent="Panel/WinMenuContainer"]
+margin_top = 172.0
+margin_right = 300.0
+margin_bottom = 186.0
+text = "YOU WIN"
+align = 1
+
+[node name="ZingerLabel" type="Label" parent="Panel/WinMenuContainer"]
+margin_top = 190.0
+margin_right = 300.0
+margin_bottom = 204.0
+text = "Reptiles Rescued"
+align = 1
+
+[node name="QuitMenuButton" type="Button" parent="Panel/WinMenuContainer"]
+margin_top = 208.0
+margin_right = 300.0
+margin_bottom = 228.0
+text = "QUIT TO MAIN MENU"
