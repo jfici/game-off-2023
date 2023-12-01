@@ -64,6 +64,7 @@ public class Player : KinematicBody2D
 		
 		// Spawn the player at the checkpoint
 		Position = checkpointPos;
+		GetNode<AudioStreamPlayer>("Audio/Player_Jump").Stream = (AudioStream)ResourceLoader.Load("res://Audio/A_Jump.wav");
 	}
 
 	public override void _PhysicsProcess(float delta)
